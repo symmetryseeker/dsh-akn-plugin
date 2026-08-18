@@ -66,7 +66,7 @@ _A Cordis plugin that turns every tool call into a searchable, verifiable, share
 
 ```sh
 # 方式 A：从 npm 安装（发布后）
-dsh plugin --profile web add @dsh/akn-plugin
+dsh plugin --profile web add dsh-akn-plugin
 
 # 方式 B：从 GitHub 安装
 dsh plugin --profile web add github:symmetryseeker/dsh-akn-plugin
@@ -181,8 +181,6 @@ node smoke-test.js   # 或直接运行
 ---
 
 ## 架构 / Architecture
-
-完整架构设计见 [docs/架构设计文档.md](docs/架构设计文档.md)（含 17 章：数据模型、存储、级联失效算法、评审修订方案、价值评估等）。
 
 ```
 src/

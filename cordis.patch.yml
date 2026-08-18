@@ -17,4 +17,4 @@
 #           searchDefaultLimit: 20
 - insert:
     - id: akn
-      name: "@dsh/akn-plugin"
+      name: "dsh-akn-plugin"

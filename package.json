@@ -1,5 +1,5 @@
 {
-  "name": "@dsh/akn-plugin",
+  "name": "dsh-akn-plugin",
   "version": "0.1.0",
   "description": "Agent Knowledge Network (AKN) for DeepSeek Harness — tool-call-as-knowledge capture, content-addressed immutable KOs, pluggable verification with cascade invalidation. Shared memory substrate & collaboration bus for all DSH agents.",
   "main": "lib/index.js",
