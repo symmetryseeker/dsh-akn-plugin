@@ -1,0 +1,20 @@
+# dsh-akn-plugin bundle patch.
+#
+# Applied automatically when this package is listed in a profile's
+# dsh.profile.bundles (i.e. after `dsh plugin --profile web add @dsh/akn-plugin`).
+#
+# Registers the AKN host plugin loader: the `id` matches the plugin's exported
+# name (src/index.ts `export const name = "akn"`), the `name` is this package.
+#
+# Config defaults live in src/index.ts (DEFAULTS). To override them at the
+# profile level, add an `- apply:` block to the profile's own cordis.patch.yml:
+#
+#   - apply:
+#       plugins:
+#         akn:
+#           autoPublish: true
+#           bootstrapSeeds: true
+#           searchDefaultLimit: 20
+- insert:
+    - id: akn
+      name: @dsh/akn-plugin
