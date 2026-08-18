@@ -55,6 +55,50 @@ _A Cordis plugin that turns every tool call into a searchable, verifiable, share
 
 ---
 
+## 愿景：从本地备忘录到开放基础设施 / Vision: from local memo to open infrastructure
+
+AKN 当前是**本地优先、私有**的——每个 Agent/用户的 AKN 是一个"孤岛"。这是刻意为之（隐私、离线、零服务器），但它有两条**为未来铺好的路**：
+
+_Today AKN is local-first and private by design. Two architectural choices already lay the groundwork for becoming shared infrastructure — not just a local memo._
+
+### 1️⃣ 内容寻址 = 无冲突联邦 / Content addressing = conflict-free federation
+
+**EN.** `id = sha256(body)` + immutable content + append-only verification means
+merging two AKNs is **idempotent** (same content ⇒ same id), with no conflict
+resolution. The "island" is connectable without loss — the foundation for a
+public knowledge base.
+
+**中文.** `id = sha256(body)` + 内容不可变 + 只追加验证 ⇒ 两个 AKN 合并**幂等**
+（同内容必同 id），无需冲突解决。"孤岛"可无损连通——公共知识库的地基。
+
+### 2️⃣ 核心层零框架依赖 / Core layer is framework-agnostic
+
+**EN.** `core/` (types/storage/service) depends only on `zod` + `node:crypto` —
+the DSH coupling lives only in a thin adapter. The protocol is portable.
+
+**中文.** `core/` 层只依赖 `zod` + `node:crypto`；DSH 耦合只在薄适配层。协议可移植。
+
+### 开放路线图 / Open roadmap
+
+| Phase | 范围 / Scope | 时机 / When |
+|---|---|---|
+| **0** | 签名验签（联邦信任前提）+ 本地导出/导入 | 现在 / now |
+| **1** | 抽 `akn-core` npm 包 → HTTP 服务（REST）→ **MCP 服务器**（任何支持 MCP 的 Agent 可接入：Claude / Cursor / LangChain 等） | 验证后 |
+| **2** | 命名空间 `ns:<org>/<space>` + 联邦同步（git 式 push/pull） | 社区级 |
+
+**协议不变式 / Protocol invariants**（无论什么框架都守着三个动词 + 内容寻址）：
+
+```
+POST /v1/publish    {title, summary, body, links?} → {id, status}
+GET  /v1/search     ?keyword=&type=&status=&tags=    → slim hits
+POST /v1/verify     {targetId, verifierDid, signature, verdict, evidence}
+GET  /v1/ko/:id                                      → full KO
+```
+
+**中文.** 从"本地备忘录"到"学术圈/公共知识库"的路径：先守住本地优先 + 内容寻址，验证价值后通过 REST/MCP 开放协议脱离 DSH 锁定，最后以命名空间 + 联邦同步连成网络。
+
+---
+
 ## 快速开始 / Quick start
 
 ### 前置要求 / Prerequisites
