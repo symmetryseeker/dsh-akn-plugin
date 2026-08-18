@@ -21,6 +21,10 @@ import { STATUS_RANK, type AknStatus } from "./core/types";
 
 export const name = "akn";
 
+/** Services this plugin consumes via `ctx.*` — must be declared for cordis
+ *  to inject them. `tools` is the harness tool registry provided by dsh. */
+export const inject = ["tools"] as const;
+
 export interface AknPluginConfig {
   /** Harvest every tool call into a content-addressed KO (default true). */
   autoPublish: boolean;

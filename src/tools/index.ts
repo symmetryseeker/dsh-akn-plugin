@@ -1,30 +1,18 @@
 /**
  * tools/index.ts — register the AKN tool set into the harness.
  *
- * The tool objects are built as plain descriptors ({ name, description,
- * parameters, execute }) and normalized with an `output` shape so they are
- * compatible with `ctx.tools.register` across DSH releases.
+ * Tools are built with `defineTool` from @deepseek-ai/dsh-tools (the same
+ * helper the harness itself uses), so the compiled JSON-Schema parameters and
+ * output are guaranteed to satisfy `ctx.tools.register`. Registration is
+ * wrapped in `ctx.effect` for proper dispose-on-unload.
  */
 
 import type { Context } from "@deepseek-ai/cordis";
-import { z } from "zod";
 
 import { AknService } from "../core/service";
 import { buildSearchTool } from "./search.tool";
 import { buildPublishTool } from "./publish.tool";
 import { buildVerifyTool } from "./verify.tool";
-
-/** A registered tool must expose an output schema + render for the UI. */
-interface AknTool {
-  name: string;
-  description: string;
-  parameters: z.ZodType;
-  output: {
-    schema: z.ZodType;
-    render: (args: unknown, value: unknown) => Array<{ type: "text"; text: string }>;
-  };
-  execute(args: unknown): Promise<unknown>;
-}
 
 export interface RegisterToolsOptions {
   /** Default result limit for akn_search when the agent omits it. */
@@ -40,7 +28,7 @@ export function registerAknTools(
   service: AknService,
   options: RegisterToolsOptions = {},
 ): void {
-  const raw = [
+  const tools = [
     buildSearchTool(service, {
       defaultLimit: options.searchDefaultLimit,
       statusRank: options.statusRank,
@@ -50,24 +38,16 @@ export function registerAknTools(
     buildVerifyTool(service),
   ];
 
-  const tools: AknTool[] = raw.map((t) => ({
-    name: t.name,
-    description: t.description,
-    parameters: t.parameters,
-    output: {
-      schema: z.unknown(),
-      render: (_args, value) => [
-        { type: "text", text: `${t.name} -> ${JSON.stringify(value)}` },
-      ],
-    },
-    execute: t.execute,
-  }));
-
   // ctx.tools is the harness tool registry injected by dsh at runtime; the
   // cordis Context type doesn't know about it, so access it via a structural
-  // cast. A tool that already exists (same name) is replaced — idempotent for
-  // hot reloads.
-  const withTools = ctx as unknown as { tools?: { register(tool: AknTool): unknown } };
+  // cast. Registering under an existing name replaces it (hot-reload safe).
+  // The effect callback runs on apply and its returned disposer (from register)
+  // runs on unload; we ignore the value, so the callback returns void.
+  const withTools = ctx as unknown as { tools?: { register(tool: unknown): any } };
   const registry = withTools.tools ?? { register: () => undefined };
-  for (const tool of tools) registry.register(tool);
+  for (const tool of tools) {
+    // The effect callback's return value is the disposer; register() returns
+    // one, which cordis runs on unload to unregister the tool.
+    ctx.effect(() => registry.register(tool));
+  }
 }
