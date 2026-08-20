@@ -1,0 +1,16 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "experience_context_plan",
+  "planId": "x",
+  "taskCapsuleDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "totalBudget": {
+    "estimatedMaxTokens": 1,
+    "maxExperiences": 1
+  },
+  "selections": [],
+  "ordering": "compatibility_first",
+  "stopRules": [],
+  "generatedBy": "deterministic_policy",
+  "policyDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "digest": "sha256:caf0e12ba863c01739f57963a88269c9901d7c61687704bce9860248b94a213b"
+}

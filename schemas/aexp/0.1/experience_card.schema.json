@@ -1,0 +1,227 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aen.dev/schemas/aexp/0.1/experience-card.schema.json",
+  "type": "object",
+  "required": [
+    "experienceId",
+    "revision",
+    "digest",
+    "title",
+    "summary",
+    "intendedUseSummary",
+    "outOfScopeSummary",
+    "knownFailureSummary",
+    "taskFamilies",
+    "compatibility",
+    "maxEvidenceLevel",
+    "safetyLabels",
+    "sourceSummary",
+    "availableSections",
+    "scoreExplanation"
+  ],
+  "properties": {
+    "experienceId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "revision": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "title": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "summary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "intendedUseSummary": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "outOfScopeSummary": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "knownFailureSummary": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "taskFamilies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "compatibility": {
+      "anyOf": [
+        {
+          "const": "exact",
+          "type": "string"
+        },
+        {
+          "const": "compatible",
+          "type": "string"
+        },
+        {
+          "const": "unknown",
+          "type": "string"
+        },
+        {
+          "const": "incompatible",
+          "type": "string"
+        }
+      ]
+    },
+    "maxEvidenceLevel": {
+      "anyOf": [
+        {
+          "const": "H0",
+          "type": "string"
+        },
+        {
+          "const": "H1",
+          "type": "string"
+        },
+        {
+          "const": "H2",
+          "type": "string"
+        },
+        {
+          "const": "H3",
+          "type": "string"
+        },
+        {
+          "const": "H4",
+          "type": "string"
+        }
+      ]
+    },
+    "metricSummary": {
+      "type": "object",
+      "required": [
+        "sampleSize",
+        "method"
+      ],
+      "properties": {
+        "sampleSize": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "successRate": {
+          "minimum": 0,
+          "maximum": 1,
+          "type": "number"
+        },
+        "quality": {
+          "type": "object",
+          "required": [
+            "mean"
+          ],
+          "properties": {
+            "mean": {
+              "type": "number"
+            },
+            "lower": {
+              "type": "number"
+            },
+            "upper": {
+              "type": "number"
+            }
+          }
+        },
+        "costUsd": {
+          "type": "object",
+          "required": [
+            "mean"
+          ],
+          "properties": {
+            "mean": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "lower": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "upper": {
+              "minimum": 0,
+              "type": "number"
+            }
+          }
+        },
+        "latencyMs": {
+          "type": "object",
+          "properties": {
+            "p50": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "p95": {
+              "minimum": 0,
+              "type": "number"
+            }
+          }
+        },
+        "negativeTransferRate": {
+          "minimum": 0,
+          "maximum": 1,
+          "type": "number"
+        },
+        "method": {
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "positiveCaseSummary": {
+      "type": "string"
+    },
+    "negativeCaseSummary": {
+      "type": "string"
+    },
+    "safetyLabels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sourceSummary": {
+      "type": "string"
+    },
+    "availableSections": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "estimatedSectionTokens": {
+      "type": "object",
+      "patternProperties": {
+        "^(.*)$": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      }
+    },
+    "scoreExplanation": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

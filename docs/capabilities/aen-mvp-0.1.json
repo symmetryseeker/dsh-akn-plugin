@@ -1,0 +1,98 @@
+{
+  "profile": "aen-mvp/0.1",
+  "status": "draft",
+  "implementedMilestone": "M6 engineering dry run",
+  "m6EngineeringArtifacts": "implemented",
+  "requirementEvidenceLedger": "docs/development/MVP-requirement-evidence-ledger-2026-08-20.md",
+  "deepSeekHarnessPlugin": {
+    "distribution": "installable dsh bundle tarball",
+    "roleModules": [
+      "definition",
+      "policy",
+      "provider",
+      "tools"
+    ],
+    "cordisFibers": [
+      "policy",
+      "provider",
+      "tools"
+    ],
+    "toolsEnabledByDefault": false,
+    "hubAccessEnabledByDefault": false,
+    "publicPublishingEnabled": false,
+    "officialAddBootRemoveAcceptance": "implemented",
+    "officialHeadlessEvaluationDriver": "implemented",
+    "officialHeadlessMockModelAcceptance": "implemented"
+  },
+  "referenceHubDeployment": {
+    "portableProductionDirectory": "implemented",
+    "outOfWorkspacePostgresGitHttpAcceptance": "implemented",
+    "containerDefinition": "draft-pilot",
+    "publiclyReachablePilot": "not-deployed"
+  },
+  "comparativeEvaluation": {
+    "taskScopedExperienceTreatments": "implemented",
+    "taskScopedComparisonPlans": "implemented",
+    "benchmarkSlicedCausalAggregates": "implemented",
+    "frozenPilotPreregistrationValidator": "implemented",
+    "stableHarnessConfigurationAndRunSnapshotIdentity": "implemented",
+    "stableHarnessConfigurationCompatibilitySelectors": "implemented-across-local-cli-mcp-web-postgres",
+    "officialDshHeadlessMechanismRun": "implemented-with-mock-model",
+    "realLive2x2x2Result": "not-run"
+  },
+  "openPilotGates": [
+    "real 2 Model x 2 stable Harness configuration x 2 task-family evaluation",
+    "publicly reachable Reference Hub with reviewed operations controls",
+    "three independent developers and cross-user adoption transcript",
+    "non-core contributor authoring usability report",
+    "independent security review"
+  ],
+  "supportedProtocolVersions": [
+    "0.1"
+  ],
+  "protocolObjects": [
+    "artifact",
+    "attestation",
+    "benchmark_task",
+    "contention",
+    "context_injection_observation",
+    "evaluation_aggregate",
+    "evaluation_trial",
+    "evidence_gap_report",
+    "experience_context_plan",
+    "experience_revision",
+    "feedback",
+    "grader_definition",
+    "harness_manifest",
+    "observation",
+    "promotion_record",
+    "revocation",
+    "task_capsule",
+    "task_episode",
+    "trace_evidence"
+  ],
+  "apiPayloads": [
+    "experience_card",
+    "search_request"
+  ],
+  "integrity": {
+    "canonicalization": "RFC 8785 JCS",
+    "digest": "SHA-256",
+    "attestation": "in-toto Statement v1 + DSSE",
+    "signingAlgorithms": [
+      "Ed25519"
+    ]
+  },
+  "supportedRequiredCapabilities": [],
+  "unsupported": [
+    "federation",
+    "node discovery",
+    "OCI artifact distribution",
+    "TUF remote updates",
+    "team and enterprise trust domains",
+    "learned ranking",
+    "remote evaluator scheduling",
+    "H4 replication network"
+  ],
+  "coreInvariant": "Agent experience is task-level and scoped to Model + Harness + Environment; Trace is evidence, not Experience."
+}

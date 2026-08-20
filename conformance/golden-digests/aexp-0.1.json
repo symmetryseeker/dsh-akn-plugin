@@ -1,0 +1,21 @@
+{
+  "attestation": "sha256:d9afe80fecadd207faf7e616a0f7fb40d177d2be4bd97f7c7f85523b5b47ac9b",
+  "evidence_gap_report": "sha256:07b12ebce9590a6e93f9cec89d68ed622bdb8b3317d6e115dd44f3fa78ffb92d",
+  "task_episode": "sha256:96dbec9eee5e1c096d31a1eaf086ad2c65b151ef7da9314ec8c2550ac1f3de5f",
+  "trace_evidence": "sha256:610cadb30861c9b933b1dd1cb41c696c9ae25fb1398a9fec619a8804acc8fdf6",
+  "harness_manifest": "sha256:959fca0fcf879f68932c5009492c306c391df74d75b94a225e517295b9d2059a",
+  "artifact": "sha256:dbe3700a7da99ad3db2e8a18bf4f06842a91e8fd75dda28fa7d876daf305bfa3",
+  "observation": "sha256:f34591774568908d85e74526913103aefacdb739fd060d0f20800dcadc46cb88",
+  "experience_revision": "sha256:f3e64b35f3b625cbcb4fbfa6f519e186e19449b5258dd80b6585594fef9a21d3",
+  "promotion_record": "sha256:f88e7c3a8e154ff4ff6449d1be8b500beafc7cb07491f0d0a570e7dc09301095",
+  "feedback": "sha256:3ea764d1dc2d838767f25d0de3f7c61020eea1c9a63dbb1ef66f7fcfa3825704",
+  "contention": "sha256:32df03c3de510267e9724f6a2422fb44ae27366bdbaf9fff580fc90839bf4cf1",
+  "revocation": "sha256:73cfd539233be4cb2aedef8bd2989a095ac20e5e4eaa75921d672aa3327d3fc6",
+  "grader_definition": "sha256:21c721988e20c69985bb24be2682bb905b901f201dad619eb9351856f759a015",
+  "benchmark_task": "sha256:5c951d096f8354fc2faf57dae0080daab6766ca2de8150af9a5e1b8e1cbd85ef",
+  "evaluation_trial": "sha256:c69d31c3a14b43f13b1d2e2ec5ab3b0295504ebe8a675817bdb34cc2ce38a311",
+  "evaluation_aggregate": "sha256:4d7fc07c8162a5eb798675a2dfa79c6ac489d23ea0b988f1eb98c6f947260afd",
+  "task_capsule": "sha256:4c5a196c3f04fa8bec514510ea7a2a98658d8c6774fe23dca865a026d751e547",
+  "experience_context_plan": "sha256:caf0e12ba863c01739f57963a88269c9901d7c61687704bce9860248b94a213b",
+  "context_injection_observation": "sha256:f15638f9cb93b0bdb7af15f16c9e9667724cb3daa4a921c0e6fb856d3711f734"
+}

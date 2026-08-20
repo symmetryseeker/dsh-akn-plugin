@@ -1,0 +1,29 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "task_episode",
+  "episodeId": "x",
+  "sessionDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "eventRange": {
+    "fromSeq": 0,
+    "toSeq": 0
+  },
+  "task": {
+    "taxonomy": [
+      "x"
+    ],
+    "intent": "x",
+    "constraints": [],
+    "acceptance": [],
+    "riskClass": "read_only"
+  },
+  "boundaryReasons": [
+    "x"
+  ],
+  "outcome": "success",
+  "evidenceGapReportRef": {
+    "objectType": "x",
+    "refId": "x",
+    "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "digest": "sha256:96dbec9eee5e1c096d31a1eaf086ad2c65b151ef7da9314ec8c2550ac1f3de5f"
+}

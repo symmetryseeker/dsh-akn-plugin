@@ -1,0 +1,360 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aen.dev/schemas/aexp/0.1/revocation.schema.json",
+  "type": "object",
+  "required": [
+    "protocolVersion",
+    "objectType",
+    "revocationId",
+    "digest",
+    "target",
+    "reasonCode",
+    "scope",
+    "severity",
+    "affectedDigests",
+    "createdAt",
+    "actor",
+    "attestation"
+  ],
+  "properties": {
+    "protocolVersion": {
+      "const": "0.1",
+      "type": "string"
+    },
+    "objectType": {
+      "const": "revocation",
+      "type": "string"
+    },
+    "revocationId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "target": {
+      "type": "object",
+      "required": [
+        "objectType",
+        "refId",
+        "digest"
+      ],
+      "properties": {
+        "objectType": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "refId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "origin": {
+          "format": "uri",
+          "type": "string"
+        }
+      }
+    },
+    "reasonCode": {
+      "anyOf": [
+        {
+          "const": "author_request",
+          "type": "string"
+        },
+        {
+          "const": "secret_leak",
+          "type": "string"
+        },
+        {
+          "const": "license",
+          "type": "string"
+        },
+        {
+          "const": "unsafe",
+          "type": "string"
+        },
+        {
+          "const": "superseded",
+          "type": "string"
+        },
+        {
+          "const": "other",
+          "type": "string"
+        }
+      ]
+    },
+    "scope": {
+      "anyOf": [
+        {
+          "const": "revision",
+          "type": "string"
+        },
+        {
+          "const": "attachment",
+          "type": "string"
+        },
+        {
+          "const": "experience",
+          "type": "string"
+        },
+        {
+          "const": "publisher_key",
+          "type": "string"
+        }
+      ]
+    },
+    "severity": {
+      "anyOf": [
+        {
+          "const": "routine",
+          "type": "string"
+        },
+        {
+          "const": "urgent",
+          "type": "string"
+        },
+        {
+          "const": "critical",
+          "type": "string"
+        }
+      ]
+    },
+    "affectedDigests": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[0-9a-f]{64}$",
+        "description": "SHA-256 digest over RFC 8785 canonical JSON"
+      }
+    },
+    "createdAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "actor": {
+      "type": "object",
+      "required": [
+        "actorId",
+        "type"
+      ],
+      "properties": {
+        "actorId": {
+          "format": "uri",
+          "type": "string"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "const": "human",
+              "type": "string"
+            },
+            {
+              "const": "agent",
+              "type": "string"
+            },
+            {
+              "const": "organization",
+              "type": "string"
+            },
+            {
+              "const": "service",
+              "type": "string"
+            },
+            {
+              "const": "node",
+              "type": "string"
+            }
+          ]
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "attestation": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://aen.dev/schemas/aexp/0.1/attestation.schema.json",
+      "type": "object",
+      "required": [
+        "protocolVersion",
+        "objectType",
+        "attestationId",
+        "digest",
+        "statementDigest",
+        "envelope",
+        "issuer",
+        "issuedAt"
+      ],
+      "properties": {
+        "protocolVersion": {
+          "const": "0.1",
+          "type": "string"
+        },
+        "objectType": {
+          "const": "attestation",
+          "type": "string"
+        },
+        "attestationId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "statementDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "envelope": {
+          "type": "object",
+          "required": [
+            "payloadType",
+            "payload",
+            "signatures"
+          ],
+          "properties": {
+            "payloadType": {
+              "const": "application/vnd.in-toto+json",
+              "type": "string"
+            },
+            "payload": {
+              "contentEncoding": "base64",
+              "type": "string"
+            },
+            "signatures": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "keyid",
+                  "sig"
+                ],
+                "properties": {
+                  "keyid": {
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "sig": {
+                    "contentEncoding": "base64",
+                    "type": "string"
+                  },
+                  "algorithm": {
+                    "anyOf": [
+                      {
+                        "const": "Ed25519",
+                        "type": "string"
+                      },
+                      {
+                        "const": "ES256",
+                        "type": "string"
+                      },
+                      {
+                        "const": "RS256",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "issuer": {
+          "type": "object",
+          "required": [
+            "actorId",
+            "type"
+          ],
+          "properties": {
+            "actorId": {
+              "format": "uri",
+              "type": "string"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "const": "human",
+                  "type": "string"
+                },
+                {
+                  "const": "agent",
+                  "type": "string"
+                },
+                {
+                  "const": "organization",
+                  "type": "string"
+                },
+                {
+                  "const": "service",
+                  "type": "string"
+                },
+                {
+                  "const": "node",
+                  "type": "string"
+                }
+              ]
+            },
+            "displayName": {
+              "type": "string"
+            }
+          }
+        },
+        "issuedAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "expiresAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "requiredCapabilities": {
+          "uniqueItems": true,
+          "type": "array",
+          "items": {
+            "format": "uri",
+            "type": "string"
+          }
+        },
+        "extensions": {
+          "type": "object",
+          "patternProperties": {
+            "^(.*)$": {
+              "description": "Any value representable by RFC 8259 JSON"
+            }
+          }
+        }
+      }
+    },
+    "requiredCapabilities": {
+      "uniqueItems": true,
+      "type": "array",
+      "items": {
+        "format": "uri",
+        "type": "string"
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "patternProperties": {
+        "^(.*)$": {
+          "description": "Any value representable by RFC 8259 JSON"
+        }
+      }
+    }
+  }
+}

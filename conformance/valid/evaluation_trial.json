@@ -1,0 +1,22 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "evaluation_trial",
+  "trialId": "x",
+  "experimentId": "x",
+  "benchmarkRef": {
+    "objectType": "x",
+    "refId": "x",
+    "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "cellId": "x",
+  "runObservationRef": {
+    "objectType": "x",
+    "refId": "x",
+    "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "attemptIndex": 0,
+  "trialIndex": 0,
+  "status": "success",
+  "graderResults": [],
+  "digest": "sha256:c69d31c3a14b43f13b1d2e2ec5ab3b0295504ebe8a675817bdb34cc2ce38a311"
+}

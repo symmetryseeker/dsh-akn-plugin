@@ -1,0 +1,23 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "attestation",
+  "attestationId": "att_fixture",
+  "statementDigest": "sha256:4aaf25f701f54b63b59ade1bda02be65f6315e5e4fe20dcd9f99f48985c6b4c3",
+  "envelope": {
+    "payloadType": "application/vnd.in-toto+json",
+    "payload": "eyJfdHlwZSI6Imh0dHBzOi8vaW4tdG90by5pby9TdGF0ZW1lbnQvdjEiLCJwcmVkaWNhdGUiOnsiaXNzdWVkQXQiOiIyMDI2LTA4LTE5VDAwOjAwOjAwWiIsImlzc3VlciI6eyJhY3RvcklkIjoiaHR0cHM6Ly9hZW4uZGV2L2NvbmZvcm1hbmNlL2FjdG9ycy9maXh0dXJlLW5vZGUiLCJ0eXBlIjoibm9kZSJ9LCJyb2xlIjoiY29uZm9ybWFuY2UtZml4dHVyZSIsInNjb3BlIjpbInB1YmxpYyJdfSwicHJlZGljYXRlVHlwZSI6Imh0dHBzOi8vYWVuLmRldi9hdHRlc3RhdGlvbnMvb2JqZWN0L3YwLjEiLCJzdWJqZWN0IjpbeyJkaWdlc3QiOnsic2hhMjU2IjoiMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMCJ9LCJuYW1lIjoiYXJ0aWZhY3Q6Zml4dHVyZS1zdWJqZWN0In1dfQ==",
+    "signatures": [
+      {
+        "keyid": "https://aen.dev/conformance/keys/fixture-ed25519",
+        "sig": "pSkkjyqCv5mUO22RTKFKGZIclB/Q456FDmhJi2ExTpOC0mzQr2YNq0c3tVD9W0tJ0FohLx2wjJ15flHwNpt4AA==",
+        "algorithm": "Ed25519"
+      }
+    ]
+  },
+  "issuer": {
+    "actorId": "https://aen.dev/conformance/actors/fixture-node",
+    "type": "node"
+  },
+  "issuedAt": "2026-08-19T00:00:00Z",
+  "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+}

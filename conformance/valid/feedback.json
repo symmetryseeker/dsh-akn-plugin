@@ -1,0 +1,14 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "feedback",
+  "feedbackId": "x",
+  "experienceRef": {
+    "experienceId": "x",
+    "revision": 1,
+    "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "decision": "viewed",
+  "sharingScope": "local",
+  "createdAt": "2026-08-19T00:00:00Z",
+  "digest": "sha256:3ea764d1dc2d838767f25d0de3f7c61020eea1c9a63dbb1ef66f7fcfa3825704"
+}

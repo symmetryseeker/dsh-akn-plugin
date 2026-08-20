@@ -1,0 +1,11 @@
+.git
+.github
+.aen
+.backups
+.work
+deepseek-harness
+dsh-web-ui
+**/node_modules
+**/dist
+**/.DS_Store
+*.docx

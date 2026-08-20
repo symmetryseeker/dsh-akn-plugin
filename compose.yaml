@@ -1,0 +1,42 @@
+services:
+  postgres:
+    image: postgres:17-bookworm
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: aen
+      POSTGRES_USER: aen
+      POSTGRES_PASSWORD: ${AEN_POSTGRES_PASSWORD:?set AEN_POSTGRES_PASSWORD}
+    volumes:
+      - aen-postgres:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U aen -d aen"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+
+  hub:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    init: true
+    read_only: true
+    tmpfs:
+      - /tmp:size=64m,mode=1777
+    security_opt:
+      - no-new-privileges:true
+    environment:
+      DATABASE_URL: postgresql://aen:${AEN_POSTGRES_PASSWORD}@postgres:5432/aen
+      AEN_HUB_ADMIN_TOKEN: ${AEN_HUB_ADMIN_TOKEN:?set AEN_HUB_ADMIN_TOKEN}
+      AEN_GIT_ROOT: /data/contributions
+      AEN_AUTHORIZED_KEYS: /data/contributions/authorized-keys.json
+    volumes:
+      - ./contributions:/data/contributions:ro
+    ports:
+      - "4173:4173"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  aen-postgres:

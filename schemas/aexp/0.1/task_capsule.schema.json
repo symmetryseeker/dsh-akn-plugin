@@ -1,0 +1,213 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aen.dev/schemas/aexp/0.1/task-capsule.schema.json",
+  "type": "object",
+  "required": [
+    "protocolVersion",
+    "objectType",
+    "capsuleId",
+    "digest",
+    "taxonomy",
+    "constraints",
+    "acceptanceTraits",
+    "riskClass",
+    "omittedSensitiveFields",
+    "expiresAt"
+  ],
+  "properties": {
+    "protocolVersion": {
+      "const": "0.1",
+      "type": "string"
+    },
+    "objectType": {
+      "const": "task_capsule",
+      "type": "string"
+    },
+    "capsuleId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "taxonomy": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "abstractIntent": {
+      "type": "string"
+    },
+    "constraints": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "acceptanceTraits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "riskClass": {
+      "anyOf": [
+        {
+          "const": "read_only",
+          "type": "string"
+        },
+        {
+          "const": "reversible_write",
+          "type": "string"
+        },
+        {
+          "const": "external_write",
+          "type": "string"
+        },
+        {
+          "const": "destructive",
+          "type": "string"
+        }
+      ]
+    },
+    "modelSelector": {
+      "type": "object",
+      "required": [
+        "path",
+        "operator"
+      ],
+      "properties": {
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "operator": {
+          "anyOf": [
+            {
+              "const": "equals",
+              "type": "string"
+            },
+            {
+              "const": "in",
+              "type": "string"
+            },
+            {
+              "const": "semver",
+              "type": "string"
+            },
+            {
+              "const": "digestEquals",
+              "type": "string"
+            },
+            {
+              "const": "exists",
+              "type": "string"
+            }
+          ]
+        },
+        "value": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          ]
+        }
+      }
+    },
+    "harnessCapabilities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "path",
+          "operator"
+        ],
+        "properties": {
+          "path": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "operator": {
+            "anyOf": [
+              {
+                "const": "equals",
+                "type": "string"
+              },
+              {
+                "const": "in",
+                "type": "string"
+              },
+              {
+                "const": "semver",
+                "type": "string"
+              },
+              {
+                "const": "digestEquals",
+                "type": "string"
+              },
+              {
+                "const": "exists",
+                "type": "string"
+              }
+            ]
+          },
+          "value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "environmentTraits": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "omittedSensitiveFields": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "expiresAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "requiredCapabilities": {
+      "uniqueItems": true,
+      "type": "array",
+      "items": {
+        "format": "uri",
+        "type": "string"
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "patternProperties": {
+        "^(.*)$": {
+          "description": "Any value representable by RFC 8259 JSON"
+        }
+      }
+    }
+  }
+}

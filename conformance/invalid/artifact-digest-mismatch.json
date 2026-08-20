@@ -1,0 +1,10 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "artifact",
+  "artifactId": "x",
+  "kind": "skill",
+  "name": "x",
+  "redistributable": false,
+  "disclosure": "digest_only",
+  "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+}

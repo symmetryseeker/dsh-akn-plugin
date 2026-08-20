@@ -1,0 +1,20 @@
+- insert:
+    - id: aen-policy
+      name: '@aen/dsh-plugin/policy'
+      config:
+        captureSkillContent: true
+        captureSkillResources: false
+        allowHubSearch: false
+
+    - id: aen
+      name: '@aen/dsh-plugin/provider'
+      config:
+        enabled: true
+        storePath: .aen/evidence.sqlite
+        harnessVersion: 0.1.0-rc.7
+        snapshotDelayMs: 25
+
+    - id: aen-tools
+      name: '@aen/dsh-plugin/tools'
+      disabled: true
+      config: {}

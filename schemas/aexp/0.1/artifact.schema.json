@@ -1,0 +1,629 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aen.dev/schemas/aexp/0.1/artifact.schema.json",
+  "type": "object",
+  "required": [
+    "protocolVersion",
+    "objectType",
+    "artifactId",
+    "kind",
+    "name",
+    "digest",
+    "redistributable",
+    "disclosure"
+  ],
+  "properties": {
+    "protocolVersion": {
+      "const": "0.1",
+      "type": "string"
+    },
+    "objectType": {
+      "const": "artifact",
+      "type": "string"
+    },
+    "artifactId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "kind": {
+      "anyOf": [
+        {
+          "const": "skill",
+          "type": "string"
+        },
+        {
+          "const": "tool",
+          "type": "string"
+        },
+        {
+          "const": "plugin",
+          "type": "string"
+        },
+        {
+          "const": "preset",
+          "type": "string"
+        },
+        {
+          "const": "prompt_section",
+          "type": "string"
+        },
+        {
+          "const": "policy",
+          "type": "string"
+        },
+        {
+          "const": "evaluator",
+          "type": "string"
+        },
+        {
+          "const": "benchmark",
+          "type": "string"
+        }
+      ]
+    },
+    "name": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "provider": {
+      "type": "string"
+    },
+    "formatProfile": {
+      "anyOf": [
+        {
+          "const": "agent_skills",
+          "type": "string"
+        },
+        {
+          "const": "mcp_tool",
+          "type": "string"
+        },
+        {
+          "const": "a2a_agent_card",
+          "type": "string"
+        },
+        {
+          "const": "oci_artifact",
+          "type": "string"
+        },
+        {
+          "const": "native",
+          "type": "string"
+        },
+        {
+          "const": "unknown",
+          "type": "string"
+        }
+      ]
+    },
+    "formatVersion": {
+      "type": "string"
+    },
+    "snapshotCompleteness": {
+      "anyOf": [
+        {
+          "const": "interface_only",
+          "type": "string"
+        },
+        {
+          "const": "content_only",
+          "type": "string"
+        },
+        {
+          "const": "partial_snapshot",
+          "type": "string"
+        },
+        {
+          "const": "complete_package",
+          "type": "string"
+        }
+      ]
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "interfaceDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "contentDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "treeDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "dependencySetDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "presentationDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "description": {
+      "type": "string"
+    },
+    "invocation": {
+      "type": "object",
+      "properties": {
+        "modelInvocable": {
+          "type": "boolean"
+        },
+        "userInvocable": {
+          "type": "boolean"
+        }
+      }
+    },
+    "entrypoint": {
+      "type": "string"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "type"
+      ],
+      "properties": {
+        "type": {
+          "anyOf": [
+            {
+              "const": "package",
+              "type": "string"
+            },
+            {
+              "const": "git",
+              "type": "string"
+            },
+            {
+              "const": "filesystem",
+              "type": "string"
+            },
+            {
+              "const": "remote",
+              "type": "string"
+            },
+            {
+              "const": "runtime",
+              "type": "string"
+            }
+          ]
+        },
+        "uri": {
+          "type": "string"
+        },
+        "revision": {
+          "type": "string"
+        }
+      }
+    },
+    "licenseExpression": {
+      "type": "string"
+    },
+    "redistributable": {
+      "type": "boolean"
+    },
+    "distribution": {
+      "type": "object",
+      "required": [
+        "transport"
+      ],
+      "properties": {
+        "transport": {
+          "anyOf": [
+            {
+              "const": "oci",
+              "type": "string"
+            },
+            {
+              "const": "https",
+              "type": "string"
+            },
+            {
+              "const": "local_only",
+              "type": "string"
+            }
+          ]
+        },
+        "reference": {
+          "type": "string"
+        },
+        "manifestDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "artifactType": {
+          "type": "string"
+        }
+      }
+    },
+    "requestedPermissions": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "sbomRef": {
+      "type": "object",
+      "allOf": [
+        {
+          "type": "object",
+          "required": [
+            "objectType",
+            "refId",
+            "digest"
+          ],
+          "properties": {
+            "objectType": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "refId": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "revision": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "description": "SHA-256 digest over RFC 8785 canonical JSON"
+            },
+            "origin": {
+              "format": "uri",
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "objectType",
+            "mediaType"
+          ],
+          "properties": {
+            "objectType": {
+              "const": "attachment",
+              "type": "string"
+            },
+            "mediaType": {
+              "minLength": 1,
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "vulnerabilityAttestationRefs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "allOf": [
+          {
+            "type": "object",
+            "required": [
+              "objectType",
+              "refId",
+              "digest"
+            ],
+            "properties": {
+              "objectType": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "refId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "description": "SHA-256 digest over RFC 8785 canonical JSON"
+              },
+              "origin": {
+                "format": "uri",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "objectType"
+            ],
+            "properties": {
+              "objectType": {
+                "anyOf": [
+                  {
+                    "const": "trace_evidence",
+                    "type": "string"
+                  },
+                  {
+                    "const": "observation",
+                    "type": "string"
+                  },
+                  {
+                    "const": "attestation",
+                    "type": "string"
+                  },
+                  {
+                    "const": "contention",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "buildProvenanceRef": {
+      "type": "object",
+      "allOf": [
+        {
+          "type": "object",
+          "required": [
+            "objectType",
+            "refId",
+            "digest"
+          ],
+          "properties": {
+            "objectType": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "refId": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "revision": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "digest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "description": "SHA-256 digest over RFC 8785 canonical JSON"
+            },
+            "origin": {
+              "format": "uri",
+              "type": "string"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "required": [
+            "objectType"
+          ],
+          "properties": {
+            "objectType": {
+              "anyOf": [
+                {
+                  "const": "trace_evidence",
+                  "type": "string"
+                },
+                {
+                  "const": "observation",
+                  "type": "string"
+                },
+                {
+                  "const": "attestation",
+                  "type": "string"
+                },
+                {
+                  "const": "contention",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      ]
+    },
+    "securityScanRefs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "allOf": [
+          {
+            "type": "object",
+            "required": [
+              "objectType",
+              "refId",
+              "digest"
+            ],
+            "properties": {
+              "objectType": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "refId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "description": "SHA-256 digest over RFC 8785 canonical JSON"
+              },
+              "origin": {
+                "format": "uri",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "objectType"
+            ],
+            "properties": {
+              "objectType": {
+                "anyOf": [
+                  {
+                    "const": "trace_evidence",
+                    "type": "string"
+                  },
+                  {
+                    "const": "observation",
+                    "type": "string"
+                  },
+                  {
+                    "const": "attestation",
+                    "type": "string"
+                  },
+                  {
+                    "const": "contention",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "resources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "pathOrUriDigest"
+        ],
+        "properties": {
+          "pathOrUriDigest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "description": "SHA-256 digest over RFC 8785 canonical JSON"
+          },
+          "mediaType": {
+            "type": "string"
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "description": "SHA-256 digest over RFC 8785 canonical JSON"
+          }
+        }
+      }
+    },
+    "disclosure": {
+      "anyOf": [
+        {
+          "const": "digest_only",
+          "type": "string"
+        },
+        {
+          "const": "metadata",
+          "type": "string"
+        },
+        {
+          "const": "redacted_excerpt",
+          "type": "string"
+        },
+        {
+          "const": "reproducible_bundle",
+          "type": "string"
+        },
+        {
+          "const": "full_content",
+          "type": "string"
+        }
+      ]
+    },
+    "attachmentRefs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "allOf": [
+          {
+            "type": "object",
+            "required": [
+              "objectType",
+              "refId",
+              "digest"
+            ],
+            "properties": {
+              "objectType": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "refId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "description": "SHA-256 digest over RFC 8785 canonical JSON"
+              },
+              "origin": {
+                "format": "uri",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "objectType",
+              "mediaType"
+            ],
+            "properties": {
+              "objectType": {
+                "const": "attachment",
+                "type": "string"
+              },
+              "mediaType": {
+                "minLength": 1,
+                "type": "string"
+              }
+            }
+          }
+        ]
+      }
+    },
+    "requiredCapabilities": {
+      "uniqueItems": true,
+      "type": "array",
+      "items": {
+        "format": "uri",
+        "type": "string"
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "patternProperties": {
+        "^(.*)$": {
+          "description": "Any value representable by RFC 8259 JSON"
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aen.dev/schemas/aexp/0.1/trace-evidence.schema.json",
+  "type": "object",
+  "required": [
+    "protocolVersion",
+    "objectType",
+    "evidenceId",
+    "digest",
+    "source",
+    "eventRange",
+    "episodeDigest",
+    "excerpts",
+    "disclosure",
+    "redaction"
+  ],
+  "properties": {
+    "protocolVersion": {
+      "const": "0.1",
+      "type": "string"
+    },
+    "objectType": {
+      "const": "trace_evidence",
+      "type": "string"
+    },
+    "evidenceId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "source": {
+      "type": "object",
+      "required": [
+        "harness",
+        "sessionDigest",
+        "schemaNamespace",
+        "mappingProfile",
+        "mappingVersion"
+      ],
+      "properties": {
+        "harness": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sessionDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "schemaNamespace": {
+          "format": "uri",
+          "type": "string"
+        },
+        "schemaVersion": {
+          "type": "string"
+        },
+        "exporterVersion": {
+          "type": "string"
+        },
+        "mappingProfile": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "mappingVersion": {
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "eventRange": {
+      "type": "object",
+      "required": [
+        "fromSeq",
+        "toSeq"
+      ],
+      "properties": {
+        "fromSeq": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "toSeq": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      }
+    },
+    "episodeDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "excerpts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "mediaType",
+          "content",
+          "sourceDigest",
+          "transformationIds"
+        ],
+        "properties": {
+          "mediaType": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "sourceDigest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "description": "SHA-256 digest over RFC 8785 canonical JSON"
+          },
+          "transformationIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "commitments": {
+      "type": "object",
+      "properties": {
+        "rawTraceDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "artifactDigests": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "description": "SHA-256 digest over RFC 8785 canonical JSON"
+          }
+        }
+      }
+    },
+    "localLocator": {
+      "type": "string"
+    },
+    "disclosure": {
+      "anyOf": [
+        {
+          "const": "digest_only",
+          "type": "string"
+        },
+        {
+          "const": "metadata",
+          "type": "string"
+        },
+        {
+          "const": "redacted_excerpt",
+          "type": "string"
+        },
+        {
+          "const": "reproducible_bundle",
+          "type": "string"
+        },
+        {
+          "const": "full_content",
+          "type": "string"
+        }
+      ]
+    },
+    "redaction": {
+      "type": "object",
+      "required": [
+        "scannerVersions",
+        "transformations",
+        "residualRisk",
+        "humanReviewed"
+      ],
+      "properties": {
+        "scannerVersions": {
+          "type": "object",
+          "patternProperties": {
+            "^(.*)$": {
+              "type": "string"
+            }
+          }
+        },
+        "transformations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "ruleId",
+              "count"
+            ],
+            "properties": {
+              "ruleId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "count": {
+                "minimum": 0,
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "residualRisk": {
+          "anyOf": [
+            {
+              "const": "low",
+              "type": "string"
+            },
+            {
+              "const": "medium",
+              "type": "string"
+            },
+            {
+              "const": "high",
+              "type": "string"
+            },
+            {
+              "const": "unknown",
+              "type": "string"
+            }
+          ]
+        },
+        "humanReviewed": {
+          "type": "boolean"
+        },
+        "reviewedAt": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "requiredCapabilities": {
+      "uniqueItems": true,
+      "type": "array",
+      "items": {
+        "format": "uri",
+        "type": "string"
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "patternProperties": {
+        "^(.*)$": {
+          "description": "Any value representable by RFC 8259 JSON"
+        }
+      }
+    }
+  }
+}

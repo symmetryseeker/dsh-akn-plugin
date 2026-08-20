@@ -1,0 +1,34 @@
+{
+  "name": "@aen/hub-app",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Reference AEN Hub HTTP API and minimal Search/Detail Web",
+  "license": "Apache-2.0",
+  "type": "module",
+  "bin": {
+    "aen-hub": "./dist/main.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "start": "tsx src/main.ts"
+  },
+  "dependencies": {
+    "@aen/hub": "workspace:*",
+    "@aen/protocol": "workspace:*",
+    "commander": "^14.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}

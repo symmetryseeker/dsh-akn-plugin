@@ -1,0 +1,1145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aen.dev/schemas/aexp/0.1/observation.schema.json",
+  "type": "object",
+  "required": [
+    "protocolVersion",
+    "objectType",
+    "observationId",
+    "digest",
+    "taskRef",
+    "evaluatorRef",
+    "configurationCell",
+    "treatment",
+    "outcome",
+    "acceptanceResults",
+    "metrics",
+    "evidenceRefs",
+    "independence",
+    "createdAt"
+  ],
+  "properties": {
+    "protocolVersion": {
+      "const": "0.1",
+      "type": "string"
+    },
+    "objectType": {
+      "const": "observation",
+      "type": "string"
+    },
+    "observationId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "experienceRef": {
+      "type": "object",
+      "required": [
+        "experienceId",
+        "revision",
+        "digest"
+      ],
+      "properties": {
+        "experienceId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        }
+      }
+    },
+    "taskRef": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "evaluatorRef": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "configurationCell": {
+      "type": "object",
+      "required": [
+        "model",
+        "harnessConfigurationDigest",
+        "harnessManifestDigest",
+        "environment"
+      ],
+      "properties": {
+        "model": {
+          "type": "object",
+          "required": [
+            "provider",
+            "modelId",
+            "observedAt",
+            "mutability"
+          ],
+          "properties": {
+            "provider": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "modelId": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "declaredVersion": {
+              "type": "string"
+            },
+            "providerRevision": {
+              "type": "string"
+            },
+            "immutableWeightsDigest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "description": "SHA-256 digest over RFC 8785 canonical JSON"
+            },
+            "capabilityDigest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "description": "SHA-256 digest over RFC 8785 canonical JSON"
+            },
+            "contextWindow": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "requestConfig": {
+              "type": "object",
+              "required": [
+                "configDigest"
+              ],
+              "properties": {
+                "reasoningEffort": {
+                  "type": "string"
+                },
+                "temperature": {
+                  "type": "number"
+                },
+                "maxOutputTokens": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "seed": {
+                  "type": "integer"
+                },
+                "configDigest": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                }
+              }
+            },
+            "pricingSnapshotRef": {
+              "type": "object",
+              "required": [
+                "objectType",
+                "refId",
+                "digest"
+              ],
+              "properties": {
+                "objectType": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "refId": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "revision": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                },
+                "origin": {
+                  "format": "uri",
+                  "type": "string"
+                }
+              }
+            },
+            "rateLimitSnapshotRef": {
+              "type": "object",
+              "required": [
+                "objectType",
+                "refId",
+                "digest"
+              ],
+              "properties": {
+                "objectType": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "refId": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "revision": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                },
+                "origin": {
+                  "format": "uri",
+                  "type": "string"
+                }
+              }
+            },
+            "observedAt": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "mutability": {
+              "anyOf": [
+                {
+                  "const": "immutable",
+                  "type": "string"
+                },
+                {
+                  "const": "versioned",
+                  "type": "string"
+                },
+                {
+                  "const": "provider_mutable",
+                  "type": "string"
+                },
+                {
+                  "const": "unknown",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        "harnessConfigurationDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "harnessManifestDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "environment": {
+          "type": "object",
+          "required": [
+            "capturedAt",
+            "disclosure"
+          ],
+          "properties": {
+            "os": {
+              "type": "object",
+              "required": [
+                "family"
+              ],
+              "properties": {
+                "family": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                },
+                "arch": {
+                  "type": "string"
+                }
+              }
+            },
+            "runtime": {
+              "type": "object",
+              "patternProperties": {
+                "^(.*)$": {
+                  "type": "string"
+                }
+              }
+            },
+            "dependencySetDigest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "description": "SHA-256 digest over RFC 8785 canonical JSON"
+            },
+            "containerImageDigest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "description": "SHA-256 digest over RFC 8785 canonical JSON"
+            },
+            "region": {
+              "type": "string"
+            },
+            "hardwareClass": {
+              "type": "string"
+            },
+            "workspaceTraits": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "externalServiceDigests": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "description": "SHA-256 digest over RFC 8785 canonical JSON"
+              }
+            },
+            "capturedAt": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "disclosure": {
+              "anyOf": [
+                {
+                  "const": "digest_only",
+                  "type": "string"
+                },
+                {
+                  "const": "metadata",
+                  "type": "string"
+                },
+                {
+                  "const": "redacted_excerpt",
+                  "type": "string"
+                },
+                {
+                  "const": "reproducible_bundle",
+                  "type": "string"
+                },
+                {
+                  "const": "full_content",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "experiment": {
+      "type": "object",
+      "required": [
+        "experimentId",
+        "cellId",
+        "trialIndex",
+        "attemptIndex"
+      ],
+      "properties": {
+        "experimentId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "cellId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "trialIndex": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "attemptIndex": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "randomization": {
+          "type": "string"
+        },
+        "seedPolicy": {
+          "type": "string"
+        }
+      }
+    },
+    "treatment": {
+      "anyOf": [
+        {
+          "const": "baseline",
+          "type": "string"
+        },
+        {
+          "const": "experience_applied",
+          "type": "string"
+        },
+        {
+          "const": "alternative",
+          "type": "string"
+        }
+      ]
+    },
+    "outcome": {
+      "anyOf": [
+        {
+          "const": "success",
+          "type": "string"
+        },
+        {
+          "const": "partial",
+          "type": "string"
+        },
+        {
+          "const": "failure",
+          "type": "string"
+        },
+        {
+          "const": "aborted",
+          "type": "string"
+        }
+      ]
+    },
+    "acceptanceResults": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "criterionId",
+          "passed",
+          "evidenceRefs"
+        ],
+        "properties": {
+          "criterionId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "passed": {
+            "type": "boolean"
+          },
+          "score": {
+            "type": "number"
+          },
+          "evidenceRefs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "allOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "objectType",
+                    "refId",
+                    "digest"
+                  ],
+                  "properties": {
+                    "objectType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "refId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "revision": {
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "digest": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$",
+                      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                    },
+                    "origin": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "objectType"
+                  ],
+                  "properties": {
+                    "objectType": {
+                      "anyOf": [
+                        {
+                          "const": "trace_evidence",
+                          "type": "string"
+                        },
+                        {
+                          "const": "observation",
+                          "type": "string"
+                        },
+                        {
+                          "const": "attestation",
+                          "type": "string"
+                        },
+                        {
+                          "const": "contention",
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "properties": {
+        "qualityScore": {
+          "type": "number"
+        },
+        "totalCostUsd": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "latencyMs": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "ttftMs": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "throughputTokensPerSecond": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "inputTokens": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "outputTokens": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "cachedTokens": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "reasoningTokens": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "retries": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "approvals": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "toolCalls": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "toolFailures": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      }
+    },
+    "failureType": {
+      "type": "string"
+    },
+    "evidenceRefs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "allOf": [
+          {
+            "type": "object",
+            "required": [
+              "objectType",
+              "refId",
+              "digest"
+            ],
+            "properties": {
+              "objectType": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "refId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "description": "SHA-256 digest over RFC 8785 canonical JSON"
+              },
+              "origin": {
+                "format": "uri",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "objectType"
+            ],
+            "properties": {
+              "objectType": {
+                "anyOf": [
+                  {
+                    "const": "trace_evidence",
+                    "type": "string"
+                  },
+                  {
+                    "const": "observation",
+                    "type": "string"
+                  },
+                  {
+                    "const": "attestation",
+                    "type": "string"
+                  },
+                  {
+                    "const": "contention",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "contextInjectionRefs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "objectType",
+          "refId",
+          "digest"
+        ],
+        "properties": {
+          "objectType": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "refId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "revision": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "description": "SHA-256 digest over RFC 8785 canonical JSON"
+          },
+          "origin": {
+            "format": "uri",
+            "type": "string"
+          }
+        }
+      }
+    },
+    "independence": {
+      "type": "object",
+      "required": [
+        "evaluatorActor"
+      ],
+      "properties": {
+        "evaluatorActor": {
+          "type": "object",
+          "required": [
+            "actorId",
+            "type"
+          ],
+          "properties": {
+            "actorId": {
+              "format": "uri",
+              "type": "string"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "const": "human",
+                  "type": "string"
+                },
+                {
+                  "const": "agent",
+                  "type": "string"
+                },
+                {
+                  "const": "organization",
+                  "type": "string"
+                },
+                {
+                  "const": "service",
+                  "type": "string"
+                },
+                {
+                  "const": "node",
+                  "type": "string"
+                }
+              ]
+            },
+            "displayName": {
+              "type": "string"
+            }
+          }
+        },
+        "organizationIdHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "modelFamily": {
+          "type": "string"
+        },
+        "fixtureOriginHash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "declaredConflicts": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "createdAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "governance": {
+      "type": "object",
+      "required": [
+        "visibility",
+        "owner",
+        "dataClasses",
+        "redistribution",
+        "sourcePolicy",
+        "redactionReport",
+        "safetyLabels"
+      ],
+      "properties": {
+        "visibility": {
+          "anyOf": [
+            {
+              "const": "private",
+              "type": "string"
+            },
+            {
+              "const": "team",
+              "type": "string"
+            },
+            {
+              "const": "public",
+              "type": "string"
+            }
+          ]
+        },
+        "owner": {
+          "type": "object",
+          "required": [
+            "actorId",
+            "type"
+          ],
+          "properties": {
+            "actorId": {
+              "format": "uri",
+              "type": "string"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "const": "human",
+                  "type": "string"
+                },
+                {
+                  "const": "agent",
+                  "type": "string"
+                },
+                {
+                  "const": "organization",
+                  "type": "string"
+                },
+                {
+                  "const": "service",
+                  "type": "string"
+                },
+                {
+                  "const": "node",
+                  "type": "string"
+                }
+              ]
+            },
+            "displayName": {
+              "type": "string"
+            }
+          }
+        },
+        "organization": {
+          "type": "string"
+        },
+        "license": {
+          "type": "string"
+        },
+        "dataClasses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "const": "public",
+                "type": "string"
+              },
+              {
+                "const": "internal",
+                "type": "string"
+              },
+              {
+                "const": "confidential",
+                "type": "string"
+              },
+              {
+                "const": "restricted",
+                "type": "string"
+              },
+              {
+                "const": "personal",
+                "type": "string"
+              },
+              {
+                "const": "secret",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "redistribution": {
+          "anyOf": [
+            {
+              "const": "none",
+              "type": "string"
+            },
+            {
+              "const": "same_acl",
+              "type": "string"
+            },
+            {
+              "const": "federation_peers",
+              "type": "string"
+            },
+            {
+              "const": "public_mirrors",
+              "type": "string"
+            }
+          ]
+        },
+        "retention": {
+          "type": "object",
+          "properties": {
+            "expiresAt": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "maxDays": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "legalHold": {
+              "type": "boolean"
+            }
+          }
+        },
+        "residency": {
+          "type": "object",
+          "properties": {
+            "allowedRegions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "deniedRegions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "consentRef": {
+          "type": "string"
+        },
+        "sourcePolicy": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "redactionReport": {
+          "type": "object",
+          "required": [
+            "scannerVersions",
+            "transformations",
+            "residualRisk",
+            "humanReviewed"
+          ],
+          "properties": {
+            "scannerVersions": {
+              "type": "object",
+              "patternProperties": {
+                "^(.*)$": {
+                  "type": "string"
+                }
+              }
+            },
+            "transformations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "ruleId",
+                  "count"
+                ],
+                "properties": {
+                  "ruleId": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "count": {
+                    "minimum": 0,
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "residualRisk": {
+              "anyOf": [
+                {
+                  "const": "low",
+                  "type": "string"
+                },
+                {
+                  "const": "medium",
+                  "type": "string"
+                },
+                {
+                  "const": "high",
+                  "type": "string"
+                },
+                {
+                  "const": "unknown",
+                  "type": "string"
+                }
+              ]
+            },
+            "humanReviewed": {
+              "type": "boolean"
+            },
+            "reviewedAt": {
+              "format": "date-time",
+              "type": "string"
+            }
+          }
+        },
+        "safetyLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "acl": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "attestation": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://aen.dev/schemas/aexp/0.1/attestation.schema.json",
+      "type": "object",
+      "required": [
+        "protocolVersion",
+        "objectType",
+        "attestationId",
+        "digest",
+        "statementDigest",
+        "envelope",
+        "issuer",
+        "issuedAt"
+      ],
+      "properties": {
+        "protocolVersion": {
+          "const": "0.1",
+          "type": "string"
+        },
+        "objectType": {
+          "const": "attestation",
+          "type": "string"
+        },
+        "attestationId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "statementDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "envelope": {
+          "type": "object",
+          "required": [
+            "payloadType",
+            "payload",
+            "signatures"
+          ],
+          "properties": {
+            "payloadType": {
+              "const": "application/vnd.in-toto+json",
+              "type": "string"
+            },
+            "payload": {
+              "contentEncoding": "base64",
+              "type": "string"
+            },
+            "signatures": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "keyid",
+                  "sig"
+                ],
+                "properties": {
+                  "keyid": {
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "sig": {
+                    "contentEncoding": "base64",
+                    "type": "string"
+                  },
+                  "algorithm": {
+                    "anyOf": [
+                      {
+                        "const": "Ed25519",
+                        "type": "string"
+                      },
+                      {
+                        "const": "ES256",
+                        "type": "string"
+                      },
+                      {
+                        "const": "RS256",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "issuer": {
+          "type": "object",
+          "required": [
+            "actorId",
+            "type"
+          ],
+          "properties": {
+            "actorId": {
+              "format": "uri",
+              "type": "string"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "const": "human",
+                  "type": "string"
+                },
+                {
+                  "const": "agent",
+                  "type": "string"
+                },
+                {
+                  "const": "organization",
+                  "type": "string"
+                },
+                {
+                  "const": "service",
+                  "type": "string"
+                },
+                {
+                  "const": "node",
+                  "type": "string"
+                }
+              ]
+            },
+            "displayName": {
+              "type": "string"
+            }
+          }
+        },
+        "issuedAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "expiresAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "requiredCapabilities": {
+          "uniqueItems": true,
+          "type": "array",
+          "items": {
+            "format": "uri",
+            "type": "string"
+          }
+        },
+        "extensions": {
+          "type": "object",
+          "patternProperties": {
+            "^(.*)$": {
+              "description": "Any value representable by RFC 8259 JSON"
+            }
+          }
+        }
+      }
+    },
+    "requiredCapabilities": {
+      "uniqueItems": true,
+      "type": "array",
+      "items": {
+        "format": "uri",
+        "type": "string"
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "patternProperties": {
+        "^(.*)$": {
+          "description": "Any value representable by RFC 8259 JSON"
+        }
+      }
+    }
+  }
+}

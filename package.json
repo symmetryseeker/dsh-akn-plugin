@@ -1,49 +1,135 @@
 {
   "name": "dsh-akn-plugin",
-  "version": "0.1.0",
-  "description": "Agent Knowledge Network (AKN) for DeepSeek Harness — tool-call-as-knowledge capture, content-addressed immutable KOs, pluggable verification with cascade invalidation. Shared memory substrate & collaboration bus for all DSH agents.",
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "version": "0.2.0",
+  "description": "Installable DeepSeek Harness plugin and reference implementation for the Agent Experience Network and AEXP 0.1",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "packages/dsh-plugin/dist/index.js",
+  "types": "packages/dsh-plugin/dist/index.d.ts",
   "files": [
-    "lib",
-    "src",
-    "cordis.patch.yml"
+    "packages/dsh-plugin/dist/index.js",
+    "packages/dsh-plugin/dist/index.js.map",
+    "packages/dsh-plugin/dist/index.d.ts",
+    "packages/dsh-plugin/dist/index.d.ts.map",
+    "packages/dsh-plugin/dist/definition.js",
+    "packages/dsh-plugin/dist/definition.js.map",
+    "packages/dsh-plugin/dist/runtime.d.ts",
+    "packages/dsh-plugin/dist/runtime.d.ts.map",
+    "packages/dsh-plugin/dist/policy.js",
+    "packages/dsh-plugin/dist/policy.js.map",
+    "packages/dsh-plugin/dist/policy-plugin.d.ts",
+    "packages/dsh-plugin/dist/policy-plugin.d.ts.map",
+    "packages/dsh-plugin/dist/provider.js",
+    "packages/dsh-plugin/dist/provider.js.map",
+    "packages/dsh-plugin/dist/provider-plugin.d.ts",
+    "packages/dsh-plugin/dist/provider-plugin.d.ts.map",
+    "packages/dsh-plugin/dist/tools.js",
+    "packages/dsh-plugin/dist/tools.js.map",
+    "packages/dsh-plugin/dist/tool-plugin.d.ts",
+    "packages/dsh-plugin/dist/tool-plugin.d.ts.map",
+    "packages/dsh-plugin/dist/evaluation-driver.js",
+    "packages/dsh-plugin/dist/evaluation-driver.js.map",
+    "packages/dsh-plugin/dist/evaluation-driver.d.ts",
+    "packages/dsh-plugin/README.md",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
   ],
-  "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "clean": "rimraf lib",
-    "prepare": "npm run build",
-    "prepublishOnly": "npm run build",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "dev": "tsc -p tsconfig.json --watch",
-    "test": "node smoke-test.js"
-  },
-  "keywords": [
-    "dsh",
-    "deepseek-harness",
-    "cordis",
-    "akn",
-    "knowledge-network",
-    "agent",
-    "memory",
-    "verification"
-  ],
-  "license": "MIT",
-  "dependencies": {
-    "@deepseek-ai/cordis": "^4.0.0",
-    "@deepseek-ai/dsh-tools": "^0.1.0-rc.5",
-    "zod": "^3.23.8"
-  },
-  "devDependencies": {
-    "@types/node": "^20.14.0",
-    "typescript": "^5.4.0"
-  },
-  "peerDependencies": {
-    "@deepseek-ai/cordis": "^4.0.0"
+  "exports": {
+    ".": {
+      "types": "./packages/dsh-plugin/dist/index.d.ts",
+      "default": "./packages/dsh-plugin/dist/index.js"
+    },
+    "./definition": {
+      "types": "./packages/dsh-plugin/dist/runtime.d.ts",
+      "default": "./packages/dsh-plugin/dist/definition.js"
+    },
+    "./policy": {
+      "types": "./packages/dsh-plugin/dist/policy-plugin.d.ts",
+      "default": "./packages/dsh-plugin/dist/policy.js"
+    },
+    "./provider": {
+      "types": "./packages/dsh-plugin/dist/provider-plugin.d.ts",
+      "default": "./packages/dsh-plugin/dist/provider.js"
+    },
+    "./tools": {
+      "types": "./packages/dsh-plugin/dist/tool-plugin.d.ts",
+      "default": "./packages/dsh-plugin/dist/tools.js"
+    },
+    "./evaluation-driver": {
+      "types": "./packages/dsh-plugin/dist/evaluation-driver.d.ts",
+      "default": "./packages/dsh-plugin/dist/evaluation-driver.js"
+    }
   },
   "dsh": {
     "bundle": {
       "patch": "./cordis.patch.yml"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/symmetryseeker/dsh-akn-plugin.git"
+  },
+  "homepage": "https://github.com/symmetryseeker/dsh-akn-plugin#readme",
+  "bugs": {
+    "url": "https://github.com/symmetryseeker/dsh-akn-plugin/issues"
+  },
+  "keywords": [
+    "deepseek-harness",
+    "agent",
+    "experience-network",
+    "aexp",
+    "cordis"
+  ],
+  "packageManager": "pnpm@11.19.0",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "scripts": {
+    "prepare": "pnpm --filter @aen/dsh-plugin... build",
+    "build": "pnpm --recursive run build",
+    "typecheck": "pnpm --filter @aen/protocol typecheck && pnpm --filter @aen/protocol build && pnpm --filter @aen/adapter-sample typecheck && pnpm --filter @aen/adapter-sample build && pnpm --filter @aen/adapter-dsh typecheck && pnpm --filter @aen/adapter-dsh build && pnpm --filter @aen/local-store typecheck && pnpm --filter @aen/local-store build && pnpm --filter @aen/workbench typecheck && pnpm --filter @aen/workbench build && pnpm --filter @aen/evaluation typecheck && pnpm --filter @aen/evaluation build && pnpm --filter @aen/promotion typecheck && pnpm --filter @aen/promotion build && pnpm --filter @aen/hub typecheck && pnpm --filter @aen/hub build && pnpm --filter @aen/client typecheck && pnpm --filter @aen/client build && pnpm --filter @aen/dsh-plugin typecheck && pnpm --filter @aen/dsh-plugin build && pnpm --filter @aen/cli typecheck && pnpm --filter @aen/hub-app typecheck && pnpm --filter @aen/mcp-server typecheck",
+    "test": "pnpm --recursive run test",
+    "test:e2e": "pnpm typecheck && pnpm --filter @aen/hub-app build && node scripts/multi-process-e2e.mjs",
+    "test:dsh-plugin-host": "node scripts/dsh-plugin-host-smoke.mjs",
+    "test:dsh-root-plugin-host": "node scripts/dsh-root-plugin-host-smoke.mjs",
+    "test:dsh-evaluation-driver": "pnpm typecheck && pnpm --filter @aen/cli build && node scripts/dsh-evaluation-driver-smoke.mjs",
+    "test:hub-deployment": "pnpm typecheck && pnpm --filter @aen/hub-app build && node scripts/hub-deployment-smoke.mjs",
+    "deploy:hub": "node scripts/deploy-hub.mjs",
+    "test:postgres": "pnpm --filter @aen/protocol build && pnpm --filter @aen/promotion build && pnpm --filter @aen/hub build && node scripts/real-postgres-test.mjs",
+    "bench:performance": "pnpm typecheck && pnpm --filter @aen/hub-app build && node scripts/performance-smoke.mjs",
+    "bench:dsh-hot-path": "pnpm --filter @aen/protocol build && pnpm --filter @aen/adapter-dsh build && pnpm --filter @aen/local-store build && pnpm --filter @aen/client build && pnpm --filter @aen/workbench build && pnpm --filter @aen/dsh-plugin build && pnpm --filter @aen/dsh-plugin benchmark:hot-path",
+    "schemas:generate": "pnpm --filter @aen/protocol schemas:generate",
+    "conformance": "pnpm --filter @aen/protocol build && pnpm --filter @aen/cli start conformance run --root ../..",
+    "audit:source": "node scripts/check-source-secrets.mjs",
+    "audit:links": "node scripts/check-doc-links.mjs",
+    "audit:licenses": "node scripts/check-production-licenses.mjs",
+    "audit:release": "pnpm audit:source && pnpm audit:links && pnpm audit:licenses && pnpm audit --prod"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "^3.18.1",
+    "@sinclair/typebox": "^0.34.52",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "canonicalize": "^4.0.0",
+    "fflate": "^0.8.3"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-tools": "0.1.0-rc.7"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/cordis": {
+      "optional": true
+    },
+    "@deepseek-ai/dsh-tools": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
   }
 }

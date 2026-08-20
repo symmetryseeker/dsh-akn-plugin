@@ -1,0 +1,23 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "attestation",
+  "attestationId": "att_fixture",
+  "statementDigest": "sha256:4aaf25f701f54b63b59ade1bda02be65f6315e5e4fe20dcd9f99f48985c6b4c3",
+  "envelope": {
+    "payloadType": "application/vnd.in-toto+json",
+    "payload": "eyJ0YW1wZXJlZCI6dHJ1ZX0=",
+    "signatures": [
+      {
+        "keyid": "https://aen.dev/conformance/keys/fixture-ed25519",
+        "sig": "pSkkjyqCv5mUO22RTKFKGZIclB/Q456FDmhJi2ExTpOC0mzQr2YNq0c3tVD9W0tJ0FohLx2wjJ15flHwNpt4AA==",
+        "algorithm": "Ed25519"
+      }
+    ]
+  },
+  "issuer": {
+    "actorId": "https://aen.dev/conformance/actors/fixture-node",
+    "type": "node"
+  },
+  "issuedAt": "2026-08-19T00:00:00Z",
+  "digest": "sha256:ecbc6b716a8ff7bd95bc15fe9028ff1bb2ad8e1b8ceceb50c9114ff61ab71185"
+}

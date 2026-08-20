@@ -1,0 +1,27 @@
+{
+  "name": "@aen/mcp-server",
+  "version": "0.0.1",
+  "private": true,
+  "description": "AEN MCP search/feedback tools and immutable resource reads",
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "start": "tsx src/main.ts"
+  },
+  "dependencies": {
+    "@aen/client": "workspace:*",
+    "@aen/local-store": "workspace:*",
+    "@aen/protocol": "workspace:*",
+    "@modelcontextprotocol/sdk": "1.29.0",
+    "commander": "^14.0.0",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}

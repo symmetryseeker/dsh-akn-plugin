@@ -1,0 +1,17 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "context_injection_observation",
+  "injectionId": "x",
+  "planId": "x",
+  "experienceRef": {
+    "experienceId": "x",
+    "revision": 1,
+    "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "fetchedSections": [],
+  "injectedSections": [],
+  "contentDigests": [],
+  "estimatedTokens": 0,
+  "createdAt": "2026-08-19T00:00:00Z",
+  "digest": "sha256:f15638f9cb93b0bdb7af15f16c9e9667724cb3daa4a921c0e6fb856d3711f734"
+}

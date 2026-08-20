@@ -1,0 +1,17 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "contention",
+  "contentionId": "x",
+  "claimRef": {
+    "experienceRef": {
+      "objectType": "experience_revision",
+      "refId": "x",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    },
+    "claimId": "x"
+  },
+  "supporting": [],
+  "contradicting": [],
+  "openedAt": "2026-08-19T00:00:00Z",
+  "digest": "sha256:32df03c3de510267e9724f6a2422fb44ae27366bdbaf9fff580fc90839bf4cf1"
+}

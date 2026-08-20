@@ -1,0 +1,3251 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aen.dev/schemas/aexp/0.1/experience-revision.schema.json",
+  "type": "object",
+  "required": [
+    "protocolVersion",
+    "objectType",
+    "experienceId",
+    "revision",
+    "digest",
+    "createdAt",
+    "relations",
+    "kind",
+    "namespace",
+    "publisher",
+    "languages",
+    "title",
+    "summary",
+    "intendedUses",
+    "outOfScopeUses",
+    "knownLimitations",
+    "knownFailureModes",
+    "task",
+    "claims",
+    "applicability",
+    "evidenceRefs",
+    "artifactRefs",
+    "governance"
+  ],
+  "properties": {
+    "protocolVersion": {
+      "const": "0.1",
+      "type": "string"
+    },
+    "objectType": {
+      "const": "experience_revision",
+      "type": "string"
+    },
+    "experienceId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "revision": {
+      "minimum": 1,
+      "type": "integer"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "createdAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "supersedes": {
+      "type": "object",
+      "required": [
+        "experienceId",
+        "revision",
+        "digest"
+      ],
+      "properties": {
+        "experienceId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        }
+      }
+    },
+    "relations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "type",
+          "target"
+        ],
+        "properties": {
+          "type": {
+            "anyOf": [
+              {
+                "const": "requires",
+                "type": "string"
+              },
+              {
+                "const": "derived_from",
+                "type": "string"
+              },
+              {
+                "const": "contradicts",
+                "type": "string"
+              },
+              {
+                "const": "supersedes",
+                "type": "string"
+              },
+              {
+                "const": "evaluated_on",
+                "type": "string"
+              },
+              {
+                "const": "compatible_with",
+                "type": "string"
+              },
+              {
+                "const": "incompatible_with",
+                "type": "string"
+              }
+            ]
+          },
+          "target": {
+            "type": "object",
+            "required": [
+              "objectType",
+              "refId",
+              "digest"
+            ],
+            "properties": {
+              "objectType": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "refId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "description": "SHA-256 digest over RFC 8785 canonical JSON"
+              },
+              "origin": {
+                "format": "uri",
+                "type": "string"
+              }
+            }
+          },
+          "scope": {
+            "type": "object",
+            "required": [
+              "taskFamilies"
+            ],
+            "properties": {
+              "taskFamilies": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "modelSelectors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "path",
+                    "operator"
+                  ],
+                  "properties": {
+                    "path": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "operator": {
+                      "anyOf": [
+                        {
+                          "const": "equals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "in",
+                          "type": "string"
+                        },
+                        {
+                          "const": "semver",
+                          "type": "string"
+                        },
+                        {
+                          "const": "digestEquals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "exists",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "harnessSelectors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "path",
+                    "operator"
+                  ],
+                  "properties": {
+                    "path": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "operator": {
+                      "anyOf": [
+                        {
+                          "const": "equals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "in",
+                          "type": "string"
+                        },
+                        {
+                          "const": "semver",
+                          "type": "string"
+                        },
+                        {
+                          "const": "digestEquals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "exists",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "environmentSelectors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "path",
+                    "operator"
+                  ],
+                  "properties": {
+                    "path": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "operator": {
+                      "anyOf": [
+                        {
+                          "const": "equals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "in",
+                          "type": "string"
+                        },
+                        {
+                          "const": "semver",
+                          "type": "string"
+                        },
+                        {
+                          "const": "digestEquals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "exists",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "requiredCapabilities": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "path",
+                    "operator"
+                  ],
+                  "properties": {
+                    "path": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "operator": {
+                      "anyOf": [
+                        {
+                          "const": "equals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "in",
+                          "type": "string"
+                        },
+                        {
+                          "const": "semver",
+                          "type": "string"
+                        },
+                        {
+                          "const": "digestEquals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "exists",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "excludedConditions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "dataSensitivityClasses": {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "const": "public",
+                      "type": "string"
+                    },
+                    {
+                      "const": "internal",
+                      "type": "string"
+                    },
+                    {
+                      "const": "confidential",
+                      "type": "string"
+                    },
+                    {
+                      "const": "restricted",
+                      "type": "string"
+                    },
+                    {
+                      "const": "personal",
+                      "type": "string"
+                    },
+                    {
+                      "const": "secret",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "jurisdictions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "revalidateOn": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "anyOf": [
+                        {
+                          "const": "model_change",
+                          "type": "string"
+                        },
+                        {
+                          "const": "harness_change",
+                          "type": "string"
+                        },
+                        {
+                          "const": "artifact_change",
+                          "type": "string"
+                        },
+                        {
+                          "const": "environment_change",
+                          "type": "string"
+                        },
+                        {
+                          "const": "evaluator_change",
+                          "type": "string"
+                        },
+                        {
+                          "const": "time",
+                          "type": "string"
+                        },
+                        {
+                          "const": "contention",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "selector": {
+                      "type": "object",
+                      "required": [
+                        "path",
+                        "operator"
+                      ],
+                      "properties": {
+                        "path": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "operator": {
+                          "anyOf": [
+                            {
+                              "const": "equals",
+                              "type": "string"
+                            },
+                            {
+                              "const": "in",
+                              "type": "string"
+                            },
+                            {
+                              "const": "semver",
+                              "type": "string"
+                            },
+                            {
+                              "const": "digestEquals",
+                              "type": "string"
+                            },
+                            {
+                              "const": "exists",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "value": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "intervalSeconds": {
+                      "minimum": 1,
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "expiresAt": {
+                "format": "date-time",
+                "type": "string"
+              }
+            }
+          },
+          "evidenceRefs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "allOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "objectType",
+                    "refId",
+                    "digest"
+                  ],
+                  "properties": {
+                    "objectType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "refId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "revision": {
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "digest": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$",
+                      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                    },
+                    "origin": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "objectType"
+                  ],
+                  "properties": {
+                    "objectType": {
+                      "anyOf": [
+                        {
+                          "const": "trace_evidence",
+                          "type": "string"
+                        },
+                        {
+                          "const": "observation",
+                          "type": "string"
+                        },
+                        {
+                          "const": "attestation",
+                          "type": "string"
+                        },
+                        {
+                          "const": "contention",
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "kind": {
+      "anyOf": [
+        {
+          "const": "execution_strategy",
+          "type": "string"
+        },
+        {
+          "const": "failure_recovery",
+          "type": "string"
+        },
+        {
+          "const": "harness_configuration",
+          "type": "string"
+        },
+        {
+          "const": "model_capability",
+          "type": "string"
+        },
+        {
+          "const": "cost_latency_tradeoff",
+          "type": "string"
+        },
+        {
+          "const": "compatibility",
+          "type": "string"
+        },
+        {
+          "const": "safety_constraint",
+          "type": "string"
+        },
+        {
+          "const": "evaluation_method",
+          "type": "string"
+        },
+        {
+          "const": "negative_result",
+          "type": "string"
+        }
+      ]
+    },
+    "namespace": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "publisher": {
+      "type": "object",
+      "required": [
+        "actorId",
+        "type"
+      ],
+      "properties": {
+        "actorId": {
+          "format": "uri",
+          "type": "string"
+        },
+        "type": {
+          "anyOf": [
+            {
+              "const": "human",
+              "type": "string"
+            },
+            {
+              "const": "agent",
+              "type": "string"
+            },
+            {
+              "const": "organization",
+              "type": "string"
+            },
+            {
+              "const": "service",
+              "type": "string"
+            },
+            {
+              "const": "node",
+              "type": "string"
+            }
+          ]
+        },
+        "displayName": {
+          "type": "string"
+        }
+      }
+    },
+    "languages": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "title": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "summary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "intendedUses": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "outOfScopeUses": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "knownLimitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "knownFailureModes": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "task": {
+      "type": "object",
+      "required": [
+        "taxonomy",
+        "intent",
+        "constraints",
+        "acceptance",
+        "riskClass"
+      ],
+      "properties": {
+        "taxonomy": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "intent": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "acceptance": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "description",
+              "required"
+            ],
+            "properties": {
+              "id": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "description": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "evaluatorRef": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "inputTraits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "outputTraits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "riskClass": {
+          "anyOf": [
+            {
+              "const": "read_only",
+              "type": "string"
+            },
+            {
+              "const": "reversible_write",
+              "type": "string"
+            },
+            {
+              "const": "external_write",
+              "type": "string"
+            },
+            {
+              "const": "destructive",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    "claims": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "claimId",
+          "type",
+          "statement",
+          "mode",
+          "evidenceLevel",
+          "scope",
+          "supportingEvidenceRefs",
+          "contradictingEvidenceRefs",
+          "falsificationConditions",
+          "assumptions"
+        ],
+        "properties": {
+          "claimId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "type": {
+            "anyOf": [
+              {
+                "const": "strategy_works",
+                "type": "string"
+              },
+              {
+                "const": "failure_cause",
+                "type": "string"
+              },
+              {
+                "const": "compatibility",
+                "type": "string"
+              },
+              {
+                "const": "configuration_effect",
+                "type": "string"
+              },
+              {
+                "const": "cost_effect",
+                "type": "string"
+              },
+              {
+                "const": "latency_effect",
+                "type": "string"
+              },
+              {
+                "const": "safety_constraint",
+                "type": "string"
+              }
+            ]
+          },
+          "statement": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "mode": {
+            "anyOf": [
+              {
+                "const": "observational",
+                "type": "string"
+              },
+              {
+                "const": "causal",
+                "type": "string"
+              },
+              {
+                "const": "constraint",
+                "type": "string"
+              }
+            ]
+          },
+          "evidenceLevel": {
+            "anyOf": [
+              {
+                "const": "H0",
+                "type": "string"
+              },
+              {
+                "const": "H1",
+                "type": "string"
+              },
+              {
+                "const": "H2",
+                "type": "string"
+              },
+              {
+                "const": "H3",
+                "type": "string"
+              },
+              {
+                "const": "H4",
+                "type": "string"
+              }
+            ]
+          },
+          "scope": {
+            "type": "object",
+            "required": [
+              "taskFamilies"
+            ],
+            "properties": {
+              "taskFamilies": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "modelSelectors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "path",
+                    "operator"
+                  ],
+                  "properties": {
+                    "path": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "operator": {
+                      "anyOf": [
+                        {
+                          "const": "equals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "in",
+                          "type": "string"
+                        },
+                        {
+                          "const": "semver",
+                          "type": "string"
+                        },
+                        {
+                          "const": "digestEquals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "exists",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "harnessSelectors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "path",
+                    "operator"
+                  ],
+                  "properties": {
+                    "path": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "operator": {
+                      "anyOf": [
+                        {
+                          "const": "equals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "in",
+                          "type": "string"
+                        },
+                        {
+                          "const": "semver",
+                          "type": "string"
+                        },
+                        {
+                          "const": "digestEquals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "exists",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "environmentSelectors": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "path",
+                    "operator"
+                  ],
+                  "properties": {
+                    "path": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "operator": {
+                      "anyOf": [
+                        {
+                          "const": "equals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "in",
+                          "type": "string"
+                        },
+                        {
+                          "const": "semver",
+                          "type": "string"
+                        },
+                        {
+                          "const": "digestEquals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "exists",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "requiredCapabilities": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "path",
+                    "operator"
+                  ],
+                  "properties": {
+                    "path": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "operator": {
+                      "anyOf": [
+                        {
+                          "const": "equals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "in",
+                          "type": "string"
+                        },
+                        {
+                          "const": "semver",
+                          "type": "string"
+                        },
+                        {
+                          "const": "digestEquals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "exists",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "excludedConditions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "dataSensitivityClasses": {
+                "type": "array",
+                "items": {
+                  "anyOf": [
+                    {
+                      "const": "public",
+                      "type": "string"
+                    },
+                    {
+                      "const": "internal",
+                      "type": "string"
+                    },
+                    {
+                      "const": "confidential",
+                      "type": "string"
+                    },
+                    {
+                      "const": "restricted",
+                      "type": "string"
+                    },
+                    {
+                      "const": "personal",
+                      "type": "string"
+                    },
+                    {
+                      "const": "secret",
+                      "type": "string"
+                    }
+                  ]
+                }
+              },
+              "jurisdictions": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "revalidateOn": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "kind"
+                  ],
+                  "properties": {
+                    "kind": {
+                      "anyOf": [
+                        {
+                          "const": "model_change",
+                          "type": "string"
+                        },
+                        {
+                          "const": "harness_change",
+                          "type": "string"
+                        },
+                        {
+                          "const": "artifact_change",
+                          "type": "string"
+                        },
+                        {
+                          "const": "environment_change",
+                          "type": "string"
+                        },
+                        {
+                          "const": "evaluator_change",
+                          "type": "string"
+                        },
+                        {
+                          "const": "time",
+                          "type": "string"
+                        },
+                        {
+                          "const": "contention",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "selector": {
+                      "type": "object",
+                      "required": [
+                        "path",
+                        "operator"
+                      ],
+                      "properties": {
+                        "path": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "operator": {
+                          "anyOf": [
+                            {
+                              "const": "equals",
+                              "type": "string"
+                            },
+                            {
+                              "const": "in",
+                              "type": "string"
+                            },
+                            {
+                              "const": "semver",
+                              "type": "string"
+                            },
+                            {
+                              "const": "digestEquals",
+                              "type": "string"
+                            },
+                            {
+                              "const": "exists",
+                              "type": "string"
+                            }
+                          ]
+                        },
+                        "value": {
+                          "anyOf": [
+                            {
+                              "type": "string"
+                            },
+                            {
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    },
+                    "intervalSeconds": {
+                      "minimum": 1,
+                      "type": "integer"
+                    }
+                  }
+                }
+              },
+              "expiresAt": {
+                "format": "date-time",
+                "type": "string"
+              }
+            }
+          },
+          "supportingEvidenceRefs": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "allOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "objectType",
+                    "refId",
+                    "digest"
+                  ],
+                  "properties": {
+                    "objectType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "refId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "revision": {
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "digest": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$",
+                      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                    },
+                    "origin": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "objectType"
+                  ],
+                  "properties": {
+                    "objectType": {
+                      "anyOf": [
+                        {
+                          "const": "trace_evidence",
+                          "type": "string"
+                        },
+                        {
+                          "const": "observation",
+                          "type": "string"
+                        },
+                        {
+                          "const": "attestation",
+                          "type": "string"
+                        },
+                        {
+                          "const": "contention",
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "contradictingEvidenceRefs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "allOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "objectType",
+                    "refId",
+                    "digest"
+                  ],
+                  "properties": {
+                    "objectType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "refId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "revision": {
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "digest": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$",
+                      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                    },
+                    "origin": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "objectType"
+                  ],
+                  "properties": {
+                    "objectType": {
+                      "anyOf": [
+                        {
+                          "const": "trace_evidence",
+                          "type": "string"
+                        },
+                        {
+                          "const": "observation",
+                          "type": "string"
+                        },
+                        {
+                          "const": "attestation",
+                          "type": "string"
+                        },
+                        {
+                          "const": "contention",
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "artifactRefs": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "allOf": [
+                {
+                  "type": "object",
+                  "required": [
+                    "objectType",
+                    "refId",
+                    "digest"
+                  ],
+                  "properties": {
+                    "objectType": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "refId": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "revision": {
+                      "minimum": 1,
+                      "type": "integer"
+                    },
+                    "digest": {
+                      "type": "string",
+                      "pattern": "^sha256:[0-9a-f]{64}$",
+                      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                    },
+                    "origin": {
+                      "format": "uri",
+                      "type": "string"
+                    }
+                  }
+                },
+                {
+                  "type": "object",
+                  "required": [
+                    "objectType"
+                  ],
+                  "properties": {
+                    "objectType": {
+                      "const": "artifact",
+                      "type": "string"
+                    },
+                    "kind": {
+                      "anyOf": [
+                        {
+                          "const": "skill",
+                          "type": "string"
+                        },
+                        {
+                          "const": "tool",
+                          "type": "string"
+                        },
+                        {
+                          "const": "plugin",
+                          "type": "string"
+                        },
+                        {
+                          "const": "preset",
+                          "type": "string"
+                        },
+                        {
+                          "const": "prompt_section",
+                          "type": "string"
+                        },
+                        {
+                          "const": "policy",
+                          "type": "string"
+                        },
+                        {
+                          "const": "evaluator",
+                          "type": "string"
+                        },
+                        {
+                          "const": "benchmark",
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "falsificationConditions": {
+            "minItems": 1,
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "assumptions": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "confidence": {
+            "type": "object",
+            "required": [
+              "estimate",
+              "method"
+            ],
+            "properties": {
+              "estimate": {
+                "type": "number"
+              },
+              "lower": {
+                "type": "number"
+              },
+              "upper": {
+                "type": "number"
+              },
+              "method": {
+                "minLength": 1,
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "applicability": {
+      "type": "object",
+      "required": [
+        "taskFamilies"
+      ],
+      "properties": {
+        "taskFamilies": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "modelSelectors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "operator"
+            ],
+            "properties": {
+              "path": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "operator": {
+                "anyOf": [
+                  {
+                    "const": "equals",
+                    "type": "string"
+                  },
+                  {
+                    "const": "in",
+                    "type": "string"
+                  },
+                  {
+                    "const": "semver",
+                    "type": "string"
+                  },
+                  {
+                    "const": "digestEquals",
+                    "type": "string"
+                  },
+                  {
+                    "const": "exists",
+                    "type": "string"
+                  }
+                ]
+              },
+              "value": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "harnessSelectors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "operator"
+            ],
+            "properties": {
+              "path": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "operator": {
+                "anyOf": [
+                  {
+                    "const": "equals",
+                    "type": "string"
+                  },
+                  {
+                    "const": "in",
+                    "type": "string"
+                  },
+                  {
+                    "const": "semver",
+                    "type": "string"
+                  },
+                  {
+                    "const": "digestEquals",
+                    "type": "string"
+                  },
+                  {
+                    "const": "exists",
+                    "type": "string"
+                  }
+                ]
+              },
+              "value": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "environmentSelectors": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "operator"
+            ],
+            "properties": {
+              "path": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "operator": {
+                "anyOf": [
+                  {
+                    "const": "equals",
+                    "type": "string"
+                  },
+                  {
+                    "const": "in",
+                    "type": "string"
+                  },
+                  {
+                    "const": "semver",
+                    "type": "string"
+                  },
+                  {
+                    "const": "digestEquals",
+                    "type": "string"
+                  },
+                  {
+                    "const": "exists",
+                    "type": "string"
+                  }
+                ]
+              },
+              "value": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "requiredCapabilities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "operator"
+            ],
+            "properties": {
+              "path": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "operator": {
+                "anyOf": [
+                  {
+                    "const": "equals",
+                    "type": "string"
+                  },
+                  {
+                    "const": "in",
+                    "type": "string"
+                  },
+                  {
+                    "const": "semver",
+                    "type": "string"
+                  },
+                  {
+                    "const": "digestEquals",
+                    "type": "string"
+                  },
+                  {
+                    "const": "exists",
+                    "type": "string"
+                  }
+                ]
+              },
+              "value": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "excludedConditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "dataSensitivityClasses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "const": "public",
+                "type": "string"
+              },
+              {
+                "const": "internal",
+                "type": "string"
+              },
+              {
+                "const": "confidential",
+                "type": "string"
+              },
+              {
+                "const": "restricted",
+                "type": "string"
+              },
+              {
+                "const": "personal",
+                "type": "string"
+              },
+              {
+                "const": "secret",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "jurisdictions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "revalidateOn": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "anyOf": [
+                  {
+                    "const": "model_change",
+                    "type": "string"
+                  },
+                  {
+                    "const": "harness_change",
+                    "type": "string"
+                  },
+                  {
+                    "const": "artifact_change",
+                    "type": "string"
+                  },
+                  {
+                    "const": "environment_change",
+                    "type": "string"
+                  },
+                  {
+                    "const": "evaluator_change",
+                    "type": "string"
+                  },
+                  {
+                    "const": "time",
+                    "type": "string"
+                  },
+                  {
+                    "const": "contention",
+                    "type": "string"
+                  }
+                ]
+              },
+              "selector": {
+                "type": "object",
+                "required": [
+                  "path",
+                  "operator"
+                ],
+                "properties": {
+                  "path": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "operator": {
+                    "anyOf": [
+                      {
+                        "const": "equals",
+                        "type": "string"
+                      },
+                      {
+                        "const": "in",
+                        "type": "string"
+                      },
+                      {
+                        "const": "semver",
+                        "type": "string"
+                      },
+                      {
+                        "const": "digestEquals",
+                        "type": "string"
+                      },
+                      {
+                        "const": "exists",
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "value": {
+                    "anyOf": [
+                      {
+                        "type": "string"
+                      },
+                      {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    ]
+                  }
+                }
+              },
+              "intervalSeconds": {
+                "minimum": 1,
+                "type": "integer"
+              }
+            }
+          }
+        },
+        "expiresAt": {
+          "format": "date-time",
+          "type": "string"
+        }
+      }
+    },
+    "recipe": {
+      "type": "object",
+      "required": [
+        "strategy",
+        "preconditions",
+        "steps",
+        "checkpoints",
+        "fallbacks",
+        "stopConditions"
+      ],
+      "properties": {
+        "strategy": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "preconditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "checkId",
+              "description",
+              "required"
+            ],
+            "properties": {
+              "checkId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "description": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "evaluatorRef": {
+                "type": "object",
+                "required": [
+                  "objectType",
+                  "refId",
+                  "digest"
+                ],
+                "properties": {
+                  "objectType": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "refId": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "revision": {
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "digest": {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$",
+                    "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                  },
+                  "origin": {
+                    "format": "uri",
+                    "type": "string"
+                  }
+                }
+              },
+              "required": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "steps": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "stepId",
+              "instruction",
+              "riskClass"
+            ],
+            "properties": {
+              "stepId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "instruction": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "rationaleSummary": {
+                "type": "string"
+              },
+              "requiredCapabilities": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "path",
+                    "operator"
+                  ],
+                  "properties": {
+                    "path": {
+                      "minLength": 1,
+                      "type": "string"
+                    },
+                    "operator": {
+                      "anyOf": [
+                        {
+                          "const": "equals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "in",
+                          "type": "string"
+                        },
+                        {
+                          "const": "semver",
+                          "type": "string"
+                        },
+                        {
+                          "const": "digestEquals",
+                          "type": "string"
+                        },
+                        {
+                          "const": "exists",
+                          "type": "string"
+                        }
+                      ]
+                    },
+                    "value": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              },
+              "riskClass": {
+                "anyOf": [
+                  {
+                    "const": "read_only",
+                    "type": "string"
+                  },
+                  {
+                    "const": "reversible_write",
+                    "type": "string"
+                  },
+                  {
+                    "const": "external_write",
+                    "type": "string"
+                  },
+                  {
+                    "const": "destructive",
+                    "type": "string"
+                  }
+                ]
+              },
+              "evidenceRefs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "objectType",
+                        "refId",
+                        "digest"
+                      ],
+                      "properties": {
+                        "objectType": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "refId": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "revision": {
+                          "minimum": 1,
+                          "type": "integer"
+                        },
+                        "digest": {
+                          "type": "string",
+                          "pattern": "^sha256:[0-9a-f]{64}$",
+                          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                        },
+                        "origin": {
+                          "format": "uri",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "objectType"
+                      ],
+                      "properties": {
+                        "objectType": {
+                          "anyOf": [
+                            {
+                              "const": "trace_evidence",
+                              "type": "string"
+                            },
+                            {
+                              "const": "observation",
+                              "type": "string"
+                            },
+                            {
+                              "const": "attestation",
+                              "type": "string"
+                            },
+                            {
+                              "const": "contention",
+                              "type": "string"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "checkpoints": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "checkId",
+              "description",
+              "required"
+            ],
+            "properties": {
+              "checkId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "description": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "evaluatorRef": {
+                "type": "object",
+                "required": [
+                  "objectType",
+                  "refId",
+                  "digest"
+                ],
+                "properties": {
+                  "objectType": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "refId": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "revision": {
+                    "minimum": 1,
+                    "type": "integer"
+                  },
+                  "digest": {
+                    "type": "string",
+                    "pattern": "^sha256:[0-9a-f]{64}$",
+                    "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                  },
+                  "origin": {
+                    "format": "uri",
+                    "type": "string"
+                  }
+                }
+              },
+              "required": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "fallbacks": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "when",
+              "action",
+              "riskClass"
+            ],
+            "properties": {
+              "when": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "action": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "riskClass": {
+                "anyOf": [
+                  {
+                    "const": "read_only",
+                    "type": "string"
+                  },
+                  {
+                    "const": "reversible_write",
+                    "type": "string"
+                  },
+                  {
+                    "const": "external_write",
+                    "type": "string"
+                  },
+                  {
+                    "const": "destructive",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "stopConditions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "cases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "positive",
+          "negative",
+          "difference"
+        ],
+        "properties": {
+          "positive": {
+            "type": "object",
+            "required": [
+              "caseId",
+              "contextSummary",
+              "actionSummary",
+              "outcomeSummary",
+              "traceEvidenceRefs",
+              "redaction"
+            ],
+            "properties": {
+              "caseId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "contextSummary": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "actionSummary": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "outcomeSummary": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "failureSignals": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "traceEvidenceRefs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "objectType",
+                        "refId",
+                        "digest"
+                      ],
+                      "properties": {
+                        "objectType": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "refId": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "revision": {
+                          "minimum": 1,
+                          "type": "integer"
+                        },
+                        "digest": {
+                          "type": "string",
+                          "pattern": "^sha256:[0-9a-f]{64}$",
+                          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                        },
+                        "origin": {
+                          "format": "uri",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "objectType"
+                      ],
+                      "properties": {
+                        "objectType": {
+                          "anyOf": [
+                            {
+                              "const": "trace_evidence",
+                              "type": "string"
+                            },
+                            {
+                              "const": "observation",
+                              "type": "string"
+                            },
+                            {
+                              "const": "attestation",
+                              "type": "string"
+                            },
+                            {
+                              "const": "contention",
+                              "type": "string"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "redaction": {
+                "type": "object",
+                "required": [
+                  "scannerVersions",
+                  "transformations",
+                  "residualRisk",
+                  "humanReviewed"
+                ],
+                "properties": {
+                  "scannerVersions": {
+                    "type": "object",
+                    "patternProperties": {
+                      "^(.*)$": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "transformations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "ruleId",
+                        "count"
+                      ],
+                      "properties": {
+                        "ruleId": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "count": {
+                          "minimum": 0,
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  },
+                  "residualRisk": {
+                    "anyOf": [
+                      {
+                        "const": "low",
+                        "type": "string"
+                      },
+                      {
+                        "const": "medium",
+                        "type": "string"
+                      },
+                      {
+                        "const": "high",
+                        "type": "string"
+                      },
+                      {
+                        "const": "unknown",
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "humanReviewed": {
+                    "type": "boolean"
+                  },
+                  "reviewedAt": {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "negative": {
+            "type": "object",
+            "required": [
+              "caseId",
+              "contextSummary",
+              "actionSummary",
+              "outcomeSummary",
+              "traceEvidenceRefs",
+              "redaction"
+            ],
+            "properties": {
+              "caseId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "contextSummary": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "actionSummary": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "outcomeSummary": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "failureSignals": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "traceEvidenceRefs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "allOf": [
+                    {
+                      "type": "object",
+                      "required": [
+                        "objectType",
+                        "refId",
+                        "digest"
+                      ],
+                      "properties": {
+                        "objectType": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "refId": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "revision": {
+                          "minimum": 1,
+                          "type": "integer"
+                        },
+                        "digest": {
+                          "type": "string",
+                          "pattern": "^sha256:[0-9a-f]{64}$",
+                          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                        },
+                        "origin": {
+                          "format": "uri",
+                          "type": "string"
+                        }
+                      }
+                    },
+                    {
+                      "type": "object",
+                      "required": [
+                        "objectType"
+                      ],
+                      "properties": {
+                        "objectType": {
+                          "anyOf": [
+                            {
+                              "const": "trace_evidence",
+                              "type": "string"
+                            },
+                            {
+                              "const": "observation",
+                              "type": "string"
+                            },
+                            {
+                              "const": "attestation",
+                              "type": "string"
+                            },
+                            {
+                              "const": "contention",
+                              "type": "string"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  ]
+                }
+              },
+              "redaction": {
+                "type": "object",
+                "required": [
+                  "scannerVersions",
+                  "transformations",
+                  "residualRisk",
+                  "humanReviewed"
+                ],
+                "properties": {
+                  "scannerVersions": {
+                    "type": "object",
+                    "patternProperties": {
+                      "^(.*)$": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "transformations": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "required": [
+                        "ruleId",
+                        "count"
+                      ],
+                      "properties": {
+                        "ruleId": {
+                          "minLength": 1,
+                          "type": "string"
+                        },
+                        "count": {
+                          "minimum": 0,
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  },
+                  "residualRisk": {
+                    "anyOf": [
+                      {
+                        "const": "low",
+                        "type": "string"
+                      },
+                      {
+                        "const": "medium",
+                        "type": "string"
+                      },
+                      {
+                        "const": "high",
+                        "type": "string"
+                      },
+                      {
+                        "const": "unknown",
+                        "type": "string"
+                      }
+                    ]
+                  },
+                  "humanReviewed": {
+                    "type": "boolean"
+                  },
+                  "reviewedAt": {
+                    "format": "date-time",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          },
+          "difference": {
+            "minLength": 1,
+            "type": "string"
+          }
+        }
+      }
+    },
+    "evidenceRefs": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "allOf": [
+          {
+            "type": "object",
+            "required": [
+              "objectType",
+              "refId",
+              "digest"
+            ],
+            "properties": {
+              "objectType": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "refId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "description": "SHA-256 digest over RFC 8785 canonical JSON"
+              },
+              "origin": {
+                "format": "uri",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "objectType"
+            ],
+            "properties": {
+              "objectType": {
+                "anyOf": [
+                  {
+                    "const": "trace_evidence",
+                    "type": "string"
+                  },
+                  {
+                    "const": "observation",
+                    "type": "string"
+                  },
+                  {
+                    "const": "attestation",
+                    "type": "string"
+                  },
+                  {
+                    "const": "contention",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "artifactRefs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "allOf": [
+          {
+            "type": "object",
+            "required": [
+              "objectType",
+              "refId",
+              "digest"
+            ],
+            "properties": {
+              "objectType": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "refId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "description": "SHA-256 digest over RFC 8785 canonical JSON"
+              },
+              "origin": {
+                "format": "uri",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "objectType"
+            ],
+            "properties": {
+              "objectType": {
+                "const": "artifact",
+                "type": "string"
+              },
+              "kind": {
+                "anyOf": [
+                  {
+                    "const": "skill",
+                    "type": "string"
+                  },
+                  {
+                    "const": "tool",
+                    "type": "string"
+                  },
+                  {
+                    "const": "plugin",
+                    "type": "string"
+                  },
+                  {
+                    "const": "preset",
+                    "type": "string"
+                  },
+                  {
+                    "const": "prompt_section",
+                    "type": "string"
+                  },
+                  {
+                    "const": "policy",
+                    "type": "string"
+                  },
+                  {
+                    "const": "evaluator",
+                    "type": "string"
+                  },
+                  {
+                    "const": "benchmark",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "metricSummary": {
+      "type": "object",
+      "required": [
+        "sampleSize",
+        "method"
+      ],
+      "properties": {
+        "sampleSize": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "successRate": {
+          "minimum": 0,
+          "maximum": 1,
+          "type": "number"
+        },
+        "quality": {
+          "type": "object",
+          "required": [
+            "mean"
+          ],
+          "properties": {
+            "mean": {
+              "type": "number"
+            },
+            "lower": {
+              "type": "number"
+            },
+            "upper": {
+              "type": "number"
+            }
+          }
+        },
+        "costUsd": {
+          "type": "object",
+          "required": [
+            "mean"
+          ],
+          "properties": {
+            "mean": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "lower": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "upper": {
+              "minimum": 0,
+              "type": "number"
+            }
+          }
+        },
+        "latencyMs": {
+          "type": "object",
+          "properties": {
+            "p50": {
+              "minimum": 0,
+              "type": "number"
+            },
+            "p95": {
+              "minimum": 0,
+              "type": "number"
+            }
+          }
+        },
+        "negativeTransferRate": {
+          "minimum": 0,
+          "maximum": 1,
+          "type": "number"
+        },
+        "method": {
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "governance": {
+      "type": "object",
+      "required": [
+        "visibility",
+        "owner",
+        "dataClasses",
+        "redistribution",
+        "sourcePolicy",
+        "redactionReport",
+        "safetyLabels"
+      ],
+      "properties": {
+        "visibility": {
+          "anyOf": [
+            {
+              "const": "private",
+              "type": "string"
+            },
+            {
+              "const": "team",
+              "type": "string"
+            },
+            {
+              "const": "public",
+              "type": "string"
+            }
+          ]
+        },
+        "owner": {
+          "type": "object",
+          "required": [
+            "actorId",
+            "type"
+          ],
+          "properties": {
+            "actorId": {
+              "format": "uri",
+              "type": "string"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "const": "human",
+                  "type": "string"
+                },
+                {
+                  "const": "agent",
+                  "type": "string"
+                },
+                {
+                  "const": "organization",
+                  "type": "string"
+                },
+                {
+                  "const": "service",
+                  "type": "string"
+                },
+                {
+                  "const": "node",
+                  "type": "string"
+                }
+              ]
+            },
+            "displayName": {
+              "type": "string"
+            }
+          }
+        },
+        "organization": {
+          "type": "string"
+        },
+        "license": {
+          "type": "string"
+        },
+        "dataClasses": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "const": "public",
+                "type": "string"
+              },
+              {
+                "const": "internal",
+                "type": "string"
+              },
+              {
+                "const": "confidential",
+                "type": "string"
+              },
+              {
+                "const": "restricted",
+                "type": "string"
+              },
+              {
+                "const": "personal",
+                "type": "string"
+              },
+              {
+                "const": "secret",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "redistribution": {
+          "anyOf": [
+            {
+              "const": "none",
+              "type": "string"
+            },
+            {
+              "const": "same_acl",
+              "type": "string"
+            },
+            {
+              "const": "federation_peers",
+              "type": "string"
+            },
+            {
+              "const": "public_mirrors",
+              "type": "string"
+            }
+          ]
+        },
+        "retention": {
+          "type": "object",
+          "properties": {
+            "expiresAt": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "maxDays": {
+              "minimum": 0,
+              "type": "integer"
+            },
+            "legalHold": {
+              "type": "boolean"
+            }
+          }
+        },
+        "residency": {
+          "type": "object",
+          "properties": {
+            "allowedRegions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "deniedRegions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "consentRef": {
+          "type": "string"
+        },
+        "sourcePolicy": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "redactionReport": {
+          "type": "object",
+          "required": [
+            "scannerVersions",
+            "transformations",
+            "residualRisk",
+            "humanReviewed"
+          ],
+          "properties": {
+            "scannerVersions": {
+              "type": "object",
+              "patternProperties": {
+                "^(.*)$": {
+                  "type": "string"
+                }
+              }
+            },
+            "transformations": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "ruleId",
+                  "count"
+                ],
+                "properties": {
+                  "ruleId": {
+                    "minLength": 1,
+                    "type": "string"
+                  },
+                  "count": {
+                    "minimum": 0,
+                    "type": "integer"
+                  }
+                }
+              }
+            },
+            "residualRisk": {
+              "anyOf": [
+                {
+                  "const": "low",
+                  "type": "string"
+                },
+                {
+                  "const": "medium",
+                  "type": "string"
+                },
+                {
+                  "const": "high",
+                  "type": "string"
+                },
+                {
+                  "const": "unknown",
+                  "type": "string"
+                }
+              ]
+            },
+            "humanReviewed": {
+              "type": "boolean"
+            },
+            "reviewedAt": {
+              "format": "date-time",
+              "type": "string"
+            }
+          }
+        },
+        "safetyLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "acl": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "attestations": {
+      "type": "array",
+      "items": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://aen.dev/schemas/aexp/0.1/attestation.schema.json",
+        "type": "object",
+        "required": [
+          "protocolVersion",
+          "objectType",
+          "attestationId",
+          "digest",
+          "statementDigest",
+          "envelope",
+          "issuer",
+          "issuedAt"
+        ],
+        "properties": {
+          "protocolVersion": {
+            "const": "0.1",
+            "type": "string"
+          },
+          "objectType": {
+            "const": "attestation",
+            "type": "string"
+          },
+          "attestationId": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "digest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "description": "SHA-256 digest over RFC 8785 canonical JSON"
+          },
+          "statementDigest": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "description": "SHA-256 digest over RFC 8785 canonical JSON"
+          },
+          "envelope": {
+            "type": "object",
+            "required": [
+              "payloadType",
+              "payload",
+              "signatures"
+            ],
+            "properties": {
+              "payloadType": {
+                "const": "application/vnd.in-toto+json",
+                "type": "string"
+              },
+              "payload": {
+                "contentEncoding": "base64",
+                "type": "string"
+              },
+              "signatures": {
+                "minItems": 1,
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "required": [
+                    "keyid",
+                    "sig"
+                  ],
+                  "properties": {
+                    "keyid": {
+                      "format": "uri",
+                      "type": "string"
+                    },
+                    "sig": {
+                      "contentEncoding": "base64",
+                      "type": "string"
+                    },
+                    "algorithm": {
+                      "anyOf": [
+                        {
+                          "const": "Ed25519",
+                          "type": "string"
+                        },
+                        {
+                          "const": "ES256",
+                          "type": "string"
+                        },
+                        {
+                          "const": "RS256",
+                          "type": "string"
+                        }
+                      ]
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "issuer": {
+            "type": "object",
+            "required": [
+              "actorId",
+              "type"
+            ],
+            "properties": {
+              "actorId": {
+                "format": "uri",
+                "type": "string"
+              },
+              "type": {
+                "anyOf": [
+                  {
+                    "const": "human",
+                    "type": "string"
+                  },
+                  {
+                    "const": "agent",
+                    "type": "string"
+                  },
+                  {
+                    "const": "organization",
+                    "type": "string"
+                  },
+                  {
+                    "const": "service",
+                    "type": "string"
+                  },
+                  {
+                    "const": "node",
+                    "type": "string"
+                  }
+                ]
+              },
+              "displayName": {
+                "type": "string"
+              }
+            }
+          },
+          "issuedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "expiresAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "requiredCapabilities": {
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "format": "uri",
+              "type": "string"
+            }
+          },
+          "extensions": {
+            "type": "object",
+            "patternProperties": {
+              "^(.*)$": {
+                "description": "Any value representable by RFC 8259 JSON"
+              }
+            }
+          }
+        }
+      }
+    },
+    "requiredCapabilities": {
+      "uniqueItems": true,
+      "type": "array",
+      "items": {
+        "format": "uri",
+        "type": "string"
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "patternProperties": {
+        "^(.*)$": {
+          "description": "Any value representable by RFC 8259 JSON"
+        }
+      }
+    }
+  }
+}

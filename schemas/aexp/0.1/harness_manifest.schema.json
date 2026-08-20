@@ -1,0 +1,696 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aen.dev/schemas/aexp/0.1/harness-manifest.schema.json",
+  "type": "object",
+  "required": [
+    "protocolVersion",
+    "objectType",
+    "manifestId",
+    "digest",
+    "configurationDigest",
+    "capturedAt",
+    "adapter",
+    "harness",
+    "sessionScope",
+    "modelSurface",
+    "artifacts",
+    "policies",
+    "environment",
+    "coverage"
+  ],
+  "properties": {
+    "protocolVersion": {
+      "const": "0.1",
+      "type": "string"
+    },
+    "objectType": {
+      "const": "harness_manifest",
+      "type": "string"
+    },
+    "manifestId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "configurationDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "capturedAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "adapter": {
+      "type": "object",
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "version": {
+          "minLength": 1,
+          "type": "string"
+        }
+      }
+    },
+    "harness": {
+      "type": "object",
+      "required": [
+        "name",
+        "version"
+      ],
+      "properties": {
+        "name": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "version": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "commit": {
+          "type": "string"
+        },
+        "distribution": {
+          "type": "string"
+        }
+      }
+    },
+    "sessionScope": {
+      "type": "object",
+      "properties": {
+        "sessionDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "fromSeq": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "toSeq": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      }
+    },
+    "preset": {
+      "type": "object",
+      "required": [
+        "id"
+      ],
+      "properties": {
+        "id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "compositionDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "trust": {
+          "anyOf": [
+            {
+              "const": "system",
+              "type": "string"
+            },
+            {
+              "const": "user",
+              "type": "string"
+            },
+            {
+              "const": "unknown",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    "modelSurface": {
+      "type": "object",
+      "properties": {
+        "systemPromptDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "toolSchemaSetDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "skillCatalogDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "memorySurfaceDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "requestConfigDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "allOf": [
+          {
+            "type": "object",
+            "required": [
+              "objectType",
+              "refId",
+              "digest"
+            ],
+            "properties": {
+              "objectType": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "refId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "description": "SHA-256 digest over RFC 8785 canonical JSON"
+              },
+              "origin": {
+                "format": "uri",
+                "type": "string"
+              }
+            }
+          },
+          {
+            "type": "object",
+            "required": [
+              "objectType"
+            ],
+            "properties": {
+              "objectType": {
+                "const": "artifact",
+                "type": "string"
+              },
+              "kind": {
+                "anyOf": [
+                  {
+                    "const": "skill",
+                    "type": "string"
+                  },
+                  {
+                    "const": "tool",
+                    "type": "string"
+                  },
+                  {
+                    "const": "plugin",
+                    "type": "string"
+                  },
+                  {
+                    "const": "preset",
+                    "type": "string"
+                  },
+                  {
+                    "const": "prompt_section",
+                    "type": "string"
+                  },
+                  {
+                    "const": "policy",
+                    "type": "string"
+                  },
+                  {
+                    "const": "evaluator",
+                    "type": "string"
+                  },
+                  {
+                    "const": "benchmark",
+                    "type": "string"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    "policies": {
+      "type": "object",
+      "properties": {
+        "sandbox": {
+          "description": "Any value representable by RFC 8259 JSON"
+        },
+        "approval": {
+          "description": "Any value representable by RFC 8259 JSON"
+        },
+        "filesystem": {
+          "description": "Any value representable by RFC 8259 JSON"
+        },
+        "network": {
+          "description": "Any value representable by RFC 8259 JSON"
+        },
+        "compaction": {
+          "description": "Any value representable by RFC 8259 JSON"
+        },
+        "retry": {
+          "description": "Any value representable by RFC 8259 JSON"
+        },
+        "subagents": {
+          "description": "Any value representable by RFC 8259 JSON"
+        },
+        "memory": {
+          "description": "Any value representable by RFC 8259 JSON"
+        },
+        "contextSelection": {
+          "description": "Any value representable by RFC 8259 JSON"
+        },
+        "toolTimeout": {
+          "description": "Any value representable by RFC 8259 JSON"
+        }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "required": [
+        "capturedAt",
+        "disclosure"
+      ],
+      "properties": {
+        "os": {
+          "type": "object",
+          "required": [
+            "family"
+          ],
+          "properties": {
+            "family": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            },
+            "arch": {
+              "type": "string"
+            }
+          }
+        },
+        "runtime": {
+          "type": "object",
+          "patternProperties": {
+            "^(.*)$": {
+              "type": "string"
+            }
+          }
+        },
+        "dependencySetDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "containerImageDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "region": {
+          "type": "string"
+        },
+        "hardwareClass": {
+          "type": "string"
+        },
+        "workspaceTraits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "externalServiceDigests": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$",
+            "description": "SHA-256 digest over RFC 8785 canonical JSON"
+          }
+        },
+        "capturedAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "disclosure": {
+          "anyOf": [
+            {
+              "const": "digest_only",
+              "type": "string"
+            },
+            {
+              "const": "metadata",
+              "type": "string"
+            },
+            {
+              "const": "redacted_excerpt",
+              "type": "string"
+            },
+            {
+              "const": "reproducible_bundle",
+              "type": "string"
+            },
+            {
+              "const": "full_content",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    "coverage": {
+      "type": "object",
+      "required": [
+        "mode",
+        "models",
+        "tools",
+        "skills",
+        "preset",
+        "policies",
+        "effectiveSurface",
+        "limitations"
+      ],
+      "properties": {
+        "mode": {
+          "anyOf": [
+            {
+              "const": "trace_only",
+              "type": "string"
+            },
+            {
+              "const": "live_snapshot",
+              "type": "string"
+            }
+          ]
+        },
+        "models": {
+          "anyOf": [
+            {
+              "const": "none",
+              "type": "string"
+            },
+            {
+              "const": "partial",
+              "type": "string"
+            },
+            {
+              "const": "complete",
+              "type": "string"
+            }
+          ]
+        },
+        "tools": {
+          "anyOf": [
+            {
+              "const": "none",
+              "type": "string"
+            },
+            {
+              "const": "surface_only",
+              "type": "string"
+            },
+            {
+              "const": "complete",
+              "type": "string"
+            }
+          ]
+        },
+        "skills": {
+          "anyOf": [
+            {
+              "const": "none",
+              "type": "string"
+            },
+            {
+              "const": "catalog_only",
+              "type": "string"
+            },
+            {
+              "const": "invoked_only",
+              "type": "string"
+            },
+            {
+              "const": "complete",
+              "type": "string"
+            }
+          ]
+        },
+        "preset": {
+          "anyOf": [
+            {
+              "const": "none",
+              "type": "string"
+            },
+            {
+              "const": "id_only",
+              "type": "string"
+            },
+            {
+              "const": "composition_digest",
+              "type": "string"
+            },
+            {
+              "const": "complete",
+              "type": "string"
+            }
+          ]
+        },
+        "policies": {
+          "anyOf": [
+            {
+              "const": "none",
+              "type": "string"
+            },
+            {
+              "const": "partial",
+              "type": "string"
+            },
+            {
+              "const": "complete",
+              "type": "string"
+            }
+          ]
+        },
+        "effectiveSurface": {
+          "anyOf": [
+            {
+              "const": "none",
+              "type": "string"
+            },
+            {
+              "const": "partial",
+              "type": "string"
+            },
+            {
+              "const": "complete",
+              "type": "string"
+            }
+          ]
+        },
+        "limitations": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "attestation": {
+      "$schema": "https://json-schema.org/draft/2020-12/schema",
+      "$id": "https://aen.dev/schemas/aexp/0.1/attestation.schema.json",
+      "type": "object",
+      "required": [
+        "protocolVersion",
+        "objectType",
+        "attestationId",
+        "digest",
+        "statementDigest",
+        "envelope",
+        "issuer",
+        "issuedAt"
+      ],
+      "properties": {
+        "protocolVersion": {
+          "const": "0.1",
+          "type": "string"
+        },
+        "objectType": {
+          "const": "attestation",
+          "type": "string"
+        },
+        "attestationId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "statementDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "envelope": {
+          "type": "object",
+          "required": [
+            "payloadType",
+            "payload",
+            "signatures"
+          ],
+          "properties": {
+            "payloadType": {
+              "const": "application/vnd.in-toto+json",
+              "type": "string"
+            },
+            "payload": {
+              "contentEncoding": "base64",
+              "type": "string"
+            },
+            "signatures": {
+              "minItems": 1,
+              "type": "array",
+              "items": {
+                "type": "object",
+                "required": [
+                  "keyid",
+                  "sig"
+                ],
+                "properties": {
+                  "keyid": {
+                    "format": "uri",
+                    "type": "string"
+                  },
+                  "sig": {
+                    "contentEncoding": "base64",
+                    "type": "string"
+                  },
+                  "algorithm": {
+                    "anyOf": [
+                      {
+                        "const": "Ed25519",
+                        "type": "string"
+                      },
+                      {
+                        "const": "ES256",
+                        "type": "string"
+                      },
+                      {
+                        "const": "RS256",
+                        "type": "string"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "issuer": {
+          "type": "object",
+          "required": [
+            "actorId",
+            "type"
+          ],
+          "properties": {
+            "actorId": {
+              "format": "uri",
+              "type": "string"
+            },
+            "type": {
+              "anyOf": [
+                {
+                  "const": "human",
+                  "type": "string"
+                },
+                {
+                  "const": "agent",
+                  "type": "string"
+                },
+                {
+                  "const": "organization",
+                  "type": "string"
+                },
+                {
+                  "const": "service",
+                  "type": "string"
+                },
+                {
+                  "const": "node",
+                  "type": "string"
+                }
+              ]
+            },
+            "displayName": {
+              "type": "string"
+            }
+          }
+        },
+        "issuedAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "expiresAt": {
+          "format": "date-time",
+          "type": "string"
+        },
+        "requiredCapabilities": {
+          "uniqueItems": true,
+          "type": "array",
+          "items": {
+            "format": "uri",
+            "type": "string"
+          }
+        },
+        "extensions": {
+          "type": "object",
+          "patternProperties": {
+            "^(.*)$": {
+              "description": "Any value representable by RFC 8259 JSON"
+            }
+          }
+        }
+      }
+    },
+    "requiredCapabilities": {
+      "uniqueItems": true,
+      "type": "array",
+      "items": {
+        "format": "uri",
+        "type": "string"
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "patternProperties": {
+        "^(.*)$": {
+          "description": "Any value representable by RFC 8259 JSON"
+        }
+      }
+    }
+  }
+}

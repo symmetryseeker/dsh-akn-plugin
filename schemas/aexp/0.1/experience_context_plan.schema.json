@@ -1,0 +1,217 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aen.dev/schemas/aexp/0.1/experience-context-plan.schema.json",
+  "type": "object",
+  "required": [
+    "protocolVersion",
+    "objectType",
+    "planId",
+    "digest",
+    "taskCapsuleDigest",
+    "totalBudget",
+    "selections",
+    "ordering",
+    "stopRules",
+    "generatedBy",
+    "policyDigest"
+  ],
+  "properties": {
+    "protocolVersion": {
+      "const": "0.1",
+      "type": "string"
+    },
+    "objectType": {
+      "const": "experience_context_plan",
+      "type": "string"
+    },
+    "planId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "taskCapsuleDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "totalBudget": {
+      "type": "object",
+      "required": [
+        "estimatedMaxTokens",
+        "maxExperiences"
+      ],
+      "properties": {
+        "maxBytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "estimatedMaxTokens": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "maxExperiences": {
+          "minimum": 1,
+          "maximum": 3,
+          "type": "integer"
+        }
+      }
+    },
+    "selections": {
+      "maxItems": 3,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "experienceRef",
+          "sections",
+          "maxEstimatedTokens",
+          "reasonCodes",
+          "requiredNegativeCase",
+          "fetchMode"
+        ],
+        "properties": {
+          "experienceRef": {
+            "type": "object",
+            "required": [
+              "experienceId",
+              "revision",
+              "digest"
+            ],
+            "properties": {
+              "experienceId": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "revision": {
+                "minimum": 1,
+                "type": "integer"
+              },
+              "digest": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "description": "SHA-256 digest over RFC 8785 canonical JSON"
+              }
+            }
+          },
+          "sections": {
+            "minItems": 1,
+            "uniqueItems": true,
+            "type": "array",
+            "items": {
+              "anyOf": [
+                {
+                  "const": "card",
+                  "type": "string"
+                },
+                {
+                  "const": "recipe",
+                  "type": "string"
+                },
+                {
+                  "const": "cases",
+                  "type": "string"
+                },
+                {
+                  "const": "evidence",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "maxEstimatedTokens": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "reasonCodes": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "requiredNegativeCase": {
+            "type": "boolean"
+          },
+          "fetchMode": {
+            "anyOf": [
+              {
+                "const": "now",
+                "type": "string"
+              },
+              {
+                "const": "just_in_time",
+                "type": "string"
+              }
+            ]
+          }
+        }
+      }
+    },
+    "ordering": {
+      "anyOf": [
+        {
+          "const": "compatibility_first",
+          "type": "string"
+        },
+        {
+          "const": "evidence_first",
+          "type": "string"
+        },
+        {
+          "const": "cost_first",
+          "type": "string"
+        },
+        {
+          "const": "custom",
+          "type": "string"
+        }
+      ]
+    },
+    "stopRules": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "generatedBy": {
+      "anyOf": [
+        {
+          "const": "deterministic_policy",
+          "type": "string"
+        },
+        {
+          "const": "agent",
+          "type": "string"
+        },
+        {
+          "const": "human",
+          "type": "string"
+        }
+      ]
+    },
+    "policyDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "requiredCapabilities": {
+      "uniqueItems": true,
+      "type": "array",
+      "items": {
+        "format": "uri",
+        "type": "string"
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "patternProperties": {
+        "^(.*)$": {
+          "description": "Any value representable by RFC 8259 JSON"
+        }
+      }
+    }
+  }
+}

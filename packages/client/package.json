@@ -1,0 +1,28 @@
+{
+  "name": "@aen/client",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Privacy-minimized AEN search, Context Plan, resource read, injection observation, and feedback client",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@aen/local-store": "workspace:*",
+    "@aen/protocol": "workspace:*",
+    "@aen/promotion": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}

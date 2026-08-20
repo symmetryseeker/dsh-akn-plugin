@@ -1,0 +1,27 @@
+{
+  "name": "@aen/evaluation",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Local comparative evaluation runner and cell-aware AEXP aggregation",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@aen/local-store": "workspace:*",
+    "@aen/protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}

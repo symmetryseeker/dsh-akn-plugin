@@ -1,0 +1,62 @@
+{
+  "experienceId": "urn:aen:experience:dsh:recovery:5b451faa68147f94cd05223b",
+  "revision": 1,
+  "digest": "sha256:5f6e8db738f2a768f08b41638e6d4f4fbedf1a15aeeba5bac2bc40df3be62c21",
+  "title": "Recover after a failed bash call and verify the retry",
+  "summary": "One DSH episode recorded a failed bash result followed by a later successful bash result in the same Model × Harness configuration. The exact corrective intervention was not captured.",
+  "intendedUseSummary": [
+    "Guide human-reviewed recovery after a failed bash call.",
+    "Preserve the failure signal, make an explicit corrective change, and verify the acceptance condition."
+  ],
+  "outOfScopeSummary": [
+    "Automatic retries without checking side-effect and permission risk.",
+    "Claims that the recipe caused success or generalizes to another Model or Harness configuration."
+  ],
+  "knownFailureSummary": [
+    "Repeating the same call without changing the failed condition.",
+    "Treating a later successful call as proof of causality.",
+    "Applying the pattern to destructive or non-idempotent operations without review."
+  ],
+  "taskFamilies": [
+    "software-engineering",
+    "failure-recovery",
+    "tool:bash"
+  ],
+  "compatibility": "unknown",
+  "maxEvidenceLevel": "H1",
+  "positiveCaseSummary": "The later bash result carried no recorded tool error.",
+  "negativeCaseSummary": "The task had not yet reached the recovery acceptance boundary.",
+  "safetyLabels": [
+    "human-review-required",
+    "no-automatic-execution",
+    "observational-only"
+  ],
+  "sourceSummary": "urn:aen:actor:local-reviewer; private; local.aen.dsh.failure-recovery",
+  "availableSections": [
+    "claims",
+    "applicability",
+    "task",
+    "governance",
+    "recipe",
+    "cases",
+    "evidence",
+    "artifacts"
+  ],
+  "estimatedSectionTokens": {
+    "claims": 658,
+    "applicability": 173,
+    "task": 154,
+    "governance": 135,
+    "recipe": 629,
+    "cases": 441,
+    "evidence": 89,
+    "artifacts": 89
+  },
+  "scoreExplanation": [
+    "Local SQLite FTS match over title, summary, task, recipe, and cases.",
+    "Model × Harness compatibility: unknown.",
+    "Maximum claim evidence: H1.",
+    "Negative/boundary evidence was retained in ranking.",
+    "Selection role: primary compatibility/evidence result."
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "@aen/cli",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "aen": "./dist/main.js"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "start": "tsx src/main.ts"
+  },
+  "dependencies": {
+    "@aen/adapter-dsh": "workspace:*",
+    "@aen/client": "workspace:*",
+    "@aen/dsh-plugin": "workspace:*",
+    "@aen/evaluation": "workspace:*",
+    "@aen/local-store": "workspace:*",
+    "@aen/promotion": "workspace:*",
+    "@aen/protocol": "workspace:*",
+    "@aen/workbench": "workspace:*",
+    "commander": "^14.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}

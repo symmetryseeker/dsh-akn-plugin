@@ -1,0 +1,34 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "observation",
+  "observationId": "x",
+  "taskRef": "x",
+  "evaluatorRef": "x",
+  "configurationCell": {
+    "model": {
+      "provider": "x",
+      "modelId": "x",
+      "observedAt": "2026-08-19T00:00:00Z",
+      "mutability": "immutable"
+    },
+    "harnessConfigurationDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "harnessManifestDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "environment": {
+      "capturedAt": "2026-08-19T00:00:00Z",
+      "disclosure": "digest_only"
+    }
+  },
+  "treatment": "baseline",
+  "outcome": "success",
+  "acceptanceResults": [],
+  "metrics": {},
+  "evidenceRefs": [],
+  "independence": {
+    "evaluatorActor": {
+      "actorId": "https://aen.dev/conformance/value",
+      "type": "human"
+    }
+  },
+  "createdAt": "2026-08-19T00:00:00Z",
+  "digest": "sha256:f34591774568908d85e74526913103aefacdb739fd060d0f20800dcadc46cb88"
+}

@@ -1,6 +1,19 @@
 node_modules/
-lib/
-docs/
-*.log
-.DS_Store
+dist/
+coverage/
 *.tsbuildinfo
+.DS_Store
+.aen/
+.work/
+.backups/
+
+# Local upstream/UI checkouts used for compatibility testing are not AEN sources.
+deepseek-harness/
+dsh-web-ui/
+
+# Local evidence and generated runtime state must never be committed.
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
+*.docx
+local-data/

@@ -1,0 +1,14 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "task_capsule",
+  "capsuleId": "x",
+  "taxonomy": [
+    "x"
+  ],
+  "constraints": [],
+  "acceptanceTraits": [],
+  "riskClass": "read_only",
+  "omittedSensitiveFields": [],
+  "expiresAt": "2026-08-19T00:00:00Z",
+  "digest": "sha256:4c5a196c3f04fa8bec514510ea7a2a98658d8c6774fe23dca865a026d751e547"
+}

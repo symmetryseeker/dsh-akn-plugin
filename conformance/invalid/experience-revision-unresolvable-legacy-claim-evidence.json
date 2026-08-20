@@ -1,0 +1,87 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "experience_revision",
+  "experienceId": "x",
+  "revision": 1,
+  "createdAt": "2026-08-19T00:00:00Z",
+  "relations": [],
+  "kind": "execution_strategy",
+  "namespace": "x",
+  "publisher": {
+    "actorId": "https://aen.dev/conformance/value",
+    "type": "human"
+  },
+  "languages": [
+    "x"
+  ],
+  "title": "x",
+  "summary": "x",
+  "intendedUses": [
+    "x"
+  ],
+  "outOfScopeUses": [],
+  "knownLimitations": [],
+  "knownFailureModes": [],
+  "task": {
+    "taxonomy": [
+      "x"
+    ],
+    "intent": "x",
+    "constraints": [],
+    "acceptance": [],
+    "riskClass": "read_only"
+  },
+  "claims": [
+    {
+      "claimId": "x",
+      "type": "strategy_works",
+      "statement": "x",
+      "mode": "observational",
+      "evidenceLevel": "H0",
+      "scope": {
+        "taskFamilies": [
+          "x"
+        ]
+      },
+      "falsificationConditions": [
+        "x"
+      ],
+      "assumptions": [],
+      "supportingObservationIds": [
+        "unresolvable-id"
+      ],
+      "contradictingObservationIds": []
+    }
+  ],
+  "applicability": {
+    "taskFamilies": [
+      "x"
+    ]
+  },
+  "evidenceRefs": [
+    {
+      "objectType": "trace_evidence",
+      "refId": "x",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ],
+  "artifactRefs": [],
+  "governance": {
+    "visibility": "private",
+    "owner": {
+      "actorId": "https://aen.dev/conformance/value",
+      "type": "human"
+    },
+    "dataClasses": [],
+    "redistribution": "none",
+    "sourcePolicy": "x",
+    "redactionReport": {
+      "scannerVersions": {},
+      "transformations": [],
+      "residualRisk": "low",
+      "humanReviewed": false
+    },
+    "safetyLabels": []
+  },
+  "digest": "sha256:f08c8b75c708beebf7e10304f5114a7020cec987efcf60f6fe467e0941f2db18"
+}

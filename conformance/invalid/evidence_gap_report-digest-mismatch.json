@@ -1,0 +1,11 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "evidence_gap_report",
+  "reportId": "x",
+  "episodeId": "x",
+  "missing": [],
+  "conflicts": [],
+  "maximumEvidenceLevel": "H0",
+  "generatedAt": "2026-08-19T00:00:00Z",
+  "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+}

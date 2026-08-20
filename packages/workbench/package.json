@@ -1,0 +1,28 @@
+{
+  "name": "@aen/workbench",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Offline constrained distillation, review, and local retrieval for AEN",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@aen/local-store": "workspace:*",
+    "@aen/protocol": "workspace:*"
+  },
+  "devDependencies": {
+    "@aen/adapter-dsh": "workspace:*",
+    "@types/node": "^24.0.0",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}

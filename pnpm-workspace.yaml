@@ -1,0 +1,10 @@
+packages:
+  - "apps/*"
+  - "packages/*"
+
+injectWorkspacePackages: true
+syncInjectedDepsAfterScripts:
+  - build
+
+allowBuilds:
+  esbuild: true

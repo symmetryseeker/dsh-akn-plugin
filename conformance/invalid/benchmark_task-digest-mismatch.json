@@ -1,0 +1,45 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "benchmark_task",
+  "benchmarkId": "x",
+  "revision": 1,
+  "suiteKind": "capability",
+  "task": {
+    "taxonomy": [
+      "x"
+    ],
+    "intent": "x",
+    "constraints": [],
+    "acceptance": [],
+    "riskClass": "read_only"
+  },
+  "environment": {
+    "fixtureRefs": [],
+    "networkMode": "none"
+  },
+  "graderRefs": [
+    {
+      "objectType": "x",
+      "refId": "x",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ],
+  "resourceLimits": {
+    "timeoutMs": 1
+  },
+  "trialPlan": {
+    "repetitions": 1,
+    "randomization": "none",
+    "primaryMetric": "x"
+  },
+  "allowedSideEffects": [],
+  "validity": {
+    "status": "draft",
+    "issueClarityReviewed": false,
+    "acceptanceAlignmentReviewed": false,
+    "solvabilityReviewed": false,
+    "reviewerRefs": [],
+    "contaminationRisk": "low"
+  },
+  "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+}

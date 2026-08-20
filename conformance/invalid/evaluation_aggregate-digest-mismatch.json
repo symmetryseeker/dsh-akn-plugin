@@ -1,0 +1,52 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "evaluation_aggregate",
+  "aggregateId": "x",
+  "experimentId": "x",
+  "benchmarkRefs": [
+    {
+      "objectType": "x",
+      "refId": "x",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ],
+  "trialRefs": [
+    {
+      "objectType": "x",
+      "refId": "x",
+      "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+    }
+  ],
+  "totalTrials": 0,
+  "validTrials": 0,
+  "metricSummary": {
+    "sampleSize": 0,
+    "method": "x"
+  },
+  "statusCounts": {},
+  "excludedTrialCounts": {},
+  "cellSummaries": [
+    {
+      "cellId": "x",
+      "treatment": "baseline",
+      "trialRefs": [
+        {
+          "objectType": "x",
+          "refId": "x",
+          "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+        }
+      ],
+      "totalTrials": 0,
+      "validTrials": 0,
+      "successes": 0,
+      "metricSummary": {
+        "sampleSize": 0,
+        "method": "x"
+      },
+      "statusCounts": {},
+      "excludedTrialCounts": {}
+    }
+  ],
+  "comparisons": [],
+  "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+}

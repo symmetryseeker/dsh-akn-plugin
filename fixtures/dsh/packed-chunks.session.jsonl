@@ -1,0 +1,3 @@
+{"type":"session","version":0,"id":"packed-chunks","createdAt":1787068802000,"delegationDepth":0}
+{"type":"text-chunks","seq0":0,"time0":1787068802001,"data":{"turn":1,"step":1,"index":0,"texts":["hel","lo"],"dt":[2]}}
+{"type":"turn/end","seq":2,"time":1787068802004,"data":{"turn":1,"reason":{"kind":"completed"}}}

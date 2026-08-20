@@ -1,0 +1,9 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "grader_definition",
+  "graderId": "x",
+  "revision": 1,
+  "type": "code",
+  "target": "outcome",
+  "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+}

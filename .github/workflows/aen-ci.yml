@@ -1,0 +1,43 @@
+name: AEN conformance and contribution ingress
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.19.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm conformance
+      - run: pnpm build
+      - run: node apps/cli/dist/main.js doctor --store .work/ci-doctor/evidence.sqlite --plugin packages/dsh-plugin
+      - run: pnpm audit:links
+      - run: mkdir -p .work/releases-root && pnpm pack --pack-destination .work/releases-root
+      - run: mkdir -p .work/releases && pnpm --dir packages/dsh-plugin pack --pack-destination ../../.work/releases
+      - run: shasum -a 256 .work/releases-root/dsh-akn-plugin-*.tgz .work/releases/aen-dsh-plugin-*.tgz | tee .work/releases/SHA256SUMS
+      - run: pnpm audit:release
+      - run: pnpm --filter @aen/hub-app start verify --git-root ../../contributions --keys ../../contributions/authorized-keys.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: aen-dsh-plugin-${{ github.sha }}
+          path: |
+            .work/releases-root/dsh-akn-plugin-*.tgz
+            .work/releases/aen-dsh-plugin-*.tgz
+            .work/releases/SHA256SUMS
+          if-no-files-found: error

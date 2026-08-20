@@ -1,0 +1,117 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aen.dev/schemas/aexp/0.1/context-injection-observation.schema.json",
+  "type": "object",
+  "required": [
+    "protocolVersion",
+    "objectType",
+    "injectionId",
+    "digest",
+    "planId",
+    "experienceRef",
+    "fetchedSections",
+    "injectedSections",
+    "contentDigests",
+    "estimatedTokens",
+    "createdAt"
+  ],
+  "properties": {
+    "protocolVersion": {
+      "const": "0.1",
+      "type": "string"
+    },
+    "objectType": {
+      "const": "context_injection_observation",
+      "type": "string"
+    },
+    "injectionId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "planId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "experienceRef": {
+      "type": "object",
+      "required": [
+        "experienceId",
+        "revision",
+        "digest"
+      ],
+      "properties": {
+        "experienceId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        }
+      }
+    },
+    "fetchedSections": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "injectedSections": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "contentDigests": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^sha256:[0-9a-f]{64}$",
+        "description": "SHA-256 digest over RFC 8785 canonical JSON"
+      }
+    },
+    "estimatedTokens": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "actualTokens": {
+      "minimum": 0,
+      "type": "integer"
+    },
+    "effectiveSurfaceDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "createdAt": {
+      "format": "date-time",
+      "type": "string"
+    },
+    "requiredCapabilities": {
+      "uniqueItems": true,
+      "type": "array",
+      "items": {
+        "format": "uri",
+        "type": "string"
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "patternProperties": {
+        "^(.*)$": {
+          "description": "Any value representable by RFC 8259 JSON"
+        }
+      }
+    }
+  }
+}

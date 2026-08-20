@@ -1,0 +1,34 @@
+{
+  "name": "@aen/hub",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Reference Hub contribution validation and PostgreSQL projection",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "test:postgres": "vitest run test/postgres.integration.test.ts"
+  },
+  "dependencies": {
+    "@aen/promotion": "workspace:*",
+    "@aen/protocol": "workspace:*",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@aen/adapter-dsh": "workspace:*",
+    "@aen/local-store": "workspace:*",
+    "@aen/workbench": "workspace:*",
+    "@types/node": "^24.0.0",
+    "@types/pg": "^8.15.5",
+    "pg-mem": "^3.0.14",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}

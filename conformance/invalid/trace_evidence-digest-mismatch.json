@@ -1,0 +1,26 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "trace_evidence",
+  "evidenceId": "x",
+  "source": {
+    "harness": "x",
+    "sessionDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+    "schemaNamespace": "https://aen.dev/conformance/value",
+    "mappingProfile": "x",
+    "mappingVersion": "x"
+  },
+  "eventRange": {
+    "fromSeq": 0,
+    "toSeq": 0
+  },
+  "episodeDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "excerpts": [],
+  "disclosure": "digest_only",
+  "redaction": {
+    "scannerVersions": {},
+    "transformations": [],
+    "residualRisk": "low",
+    "humanReviewed": false
+  },
+  "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+}

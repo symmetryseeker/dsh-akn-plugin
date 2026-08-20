@@ -1,0 +1,115 @@
+{
+  "name": "@aen/dsh-plugin",
+  "version": "0.0.1",
+  "private": true,
+  "description": "DeepSeek Harness Cordis plugin for low-frequency AEN live manifests",
+  "license": "Apache-2.0",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/index.js",
+    "dist/index.js.map",
+    "dist/index.d.ts",
+    "dist/index.d.ts.map",
+    "dist/definition.js",
+    "dist/definition.js.map",
+    "dist/runtime.d.ts",
+    "dist/runtime.d.ts.map",
+    "dist/policy.js",
+    "dist/policy.js.map",
+    "dist/policy-plugin.d.ts",
+    "dist/policy-plugin.d.ts.map",
+    "dist/provider.js",
+    "dist/provider.js.map",
+    "dist/provider-plugin.d.ts",
+    "dist/provider-plugin.d.ts.map",
+    "dist/tools.js",
+    "dist/tools.js.map",
+    "dist/tool-plugin.d.ts",
+    "dist/tool-plugin.d.ts.map",
+    "dist/evaluation-driver.js",
+    "dist/evaluation-driver.js.map",
+    "dist/evaluation-driver.d.ts",
+    "cordis.patch.yml",
+    "README.md"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./definition": {
+      "types": "./dist/runtime.d.ts",
+      "default": "./dist/definition.js"
+    },
+    "./policy": {
+      "types": "./dist/policy-plugin.d.ts",
+      "default": "./dist/policy.js"
+    },
+    "./provider": {
+      "types": "./dist/provider-plugin.d.ts",
+      "default": "./dist/provider.js"
+    },
+    "./tools": {
+      "types": "./dist/tool-plugin.d.ts",
+      "default": "./dist/tools.js"
+    },
+    "./evaluation-driver": {
+      "types": "./dist/evaluation-driver.d.ts",
+      "default": "./dist/evaluation-driver.js"
+    }
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json && node scripts/build-bundle.mjs",
+    "prepack": "pnpm run build",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run",
+    "benchmark:hot-path": "node scripts/hot-path-benchmark.mjs"
+  },
+  "dependencies": {
+    "@deepseek-ai/schemastery": "^3.18.1",
+    "@sinclair/typebox": "^0.34.52",
+    "ajv": "^8.20.0",
+    "ajv-formats": "^3.0.1",
+    "canonicalize": "^4.0.0",
+    "fflate": "^0.8.3"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-tools": "0.1.0-rc.7"
+  },
+  "peerDependenciesMeta": {
+    "@deepseek-ai/cordis": {
+      "optional": true
+    },
+    "@deepseek-ai/dsh-tools": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@aen/adapter-dsh": "workspace:*",
+    "@aen/client": "workspace:*",
+    "@aen/evaluation": "workspace:*",
+    "@aen/local-store": "workspace:*",
+    "@aen/promotion": "workspace:*",
+    "@aen/protocol": "workspace:*",
+    "@aen/workbench": "workspace:*",
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/dsh-agent": "0.1.0-rc.7",
+    "@deepseek-ai/dsh-llm": "0.1.0-rc.7",
+    "@deepseek-ai/dsh-session": "0.1.0-rc.7",
+    "@deepseek-ai/dsh-skill": "0.1.0-rc.7",
+    "@deepseek-ai/dsh-system-prompt": "0.1.0-rc.7",
+    "@deepseek-ai/dsh-tools": "0.1.0-rc.7",
+    "@types/node": "^24.0.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.9.0",
+    "vitest": "^3.2.0"
+  }
+}

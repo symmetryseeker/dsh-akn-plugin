@@ -1,0 +1,220 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aen.dev/schemas/aexp/0.1/task-episode.schema.json",
+  "type": "object",
+  "required": [
+    "protocolVersion",
+    "objectType",
+    "episodeId",
+    "digest",
+    "sessionDigest",
+    "eventRange",
+    "task",
+    "boundaryReasons",
+    "outcome",
+    "evidenceGapReportRef"
+  ],
+  "properties": {
+    "protocolVersion": {
+      "const": "0.1",
+      "type": "string"
+    },
+    "objectType": {
+      "const": "task_episode",
+      "type": "string"
+    },
+    "episodeId": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "digest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "sessionDigest": {
+      "type": "string",
+      "pattern": "^sha256:[0-9a-f]{64}$",
+      "description": "SHA-256 digest over RFC 8785 canonical JSON"
+    },
+    "eventRange": {
+      "type": "object",
+      "required": [
+        "fromSeq",
+        "toSeq"
+      ],
+      "properties": {
+        "fromSeq": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "toSeq": {
+          "minimum": 0,
+          "type": "integer"
+        }
+      }
+    },
+    "task": {
+      "type": "object",
+      "required": [
+        "taxonomy",
+        "intent",
+        "constraints",
+        "acceptance",
+        "riskClass"
+      ],
+      "properties": {
+        "taxonomy": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "intent": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "acceptance": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "description",
+              "required"
+            ],
+            "properties": {
+              "id": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "description": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "evaluatorRef": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "inputTraits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "outputTraits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "riskClass": {
+          "anyOf": [
+            {
+              "const": "read_only",
+              "type": "string"
+            },
+            {
+              "const": "reversible_write",
+              "type": "string"
+            },
+            {
+              "const": "external_write",
+              "type": "string"
+            },
+            {
+              "const": "destructive",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    "boundaryReasons": {
+      "minItems": 1,
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "outcome": {
+      "anyOf": [
+        {
+          "const": "success",
+          "type": "string"
+        },
+        {
+          "const": "partial",
+          "type": "string"
+        },
+        {
+          "const": "failure",
+          "type": "string"
+        },
+        {
+          "const": "unknown",
+          "type": "string"
+        }
+      ]
+    },
+    "evidenceGapReportRef": {
+      "type": "object",
+      "required": [
+        "objectType",
+        "refId",
+        "digest"
+      ],
+      "properties": {
+        "objectType": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "refId": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "revision": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "digest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "origin": {
+          "format": "uri",
+          "type": "string"
+        }
+      }
+    },
+    "requiredCapabilities": {
+      "uniqueItems": true,
+      "type": "array",
+      "items": {
+        "format": "uri",
+        "type": "string"
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "patternProperties": {
+        "^(.*)$": {
+          "description": "Any value representable by RFC 8259 JSON"
+        }
+      }
+    }
+  }
+}

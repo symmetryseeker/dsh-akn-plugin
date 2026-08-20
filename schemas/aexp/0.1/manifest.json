@@ -1,0 +1,110 @@
+{
+  "protocolVersion": "0.1",
+  "schemas": [
+    {
+      "name": "attestation",
+      "id": "https://aen.dev/schemas/aexp/0.1/attestation.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "evidence_gap_report",
+      "id": "https://aen.dev/schemas/aexp/0.1/evidence-gap-report.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "task_episode",
+      "id": "https://aen.dev/schemas/aexp/0.1/task-episode.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "trace_evidence",
+      "id": "https://aen.dev/schemas/aexp/0.1/trace-evidence.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "harness_manifest",
+      "id": "https://aen.dev/schemas/aexp/0.1/harness-manifest.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "artifact",
+      "id": "https://aen.dev/schemas/aexp/0.1/artifact.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "observation",
+      "id": "https://aen.dev/schemas/aexp/0.1/observation.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "experience_revision",
+      "id": "https://aen.dev/schemas/aexp/0.1/experience-revision.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "promotion_record",
+      "id": "https://aen.dev/schemas/aexp/0.1/promotion-record.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "feedback",
+      "id": "https://aen.dev/schemas/aexp/0.1/feedback.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "contention",
+      "id": "https://aen.dev/schemas/aexp/0.1/contention.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "revocation",
+      "id": "https://aen.dev/schemas/aexp/0.1/revocation.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "grader_definition",
+      "id": "https://aen.dev/schemas/aexp/0.1/grader-definition.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "benchmark_task",
+      "id": "https://aen.dev/schemas/aexp/0.1/benchmark-task.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "evaluation_trial",
+      "id": "https://aen.dev/schemas/aexp/0.1/evaluation-trial.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "evaluation_aggregate",
+      "id": "https://aen.dev/schemas/aexp/0.1/evaluation-aggregate.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "task_capsule",
+      "id": "https://aen.dev/schemas/aexp/0.1/task-capsule.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "experience_context_plan",
+      "id": "https://aen.dev/schemas/aexp/0.1/experience-context-plan.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "context_injection_observation",
+      "id": "https://aen.dev/schemas/aexp/0.1/context-injection-observation.schema.json",
+      "kind": "protocol_object"
+    },
+    {
+      "name": "search_request",
+      "id": "https://aen.dev/schemas/aexp/0.1/search-request.schema.json",
+      "kind": "api_payload"
+    },
+    {
+      "name": "experience_card",
+      "id": "https://aen.dev/schemas/aexp/0.1/experience-card.schema.json",
+      "kind": "api_payload"
+    }
+  ]
+}

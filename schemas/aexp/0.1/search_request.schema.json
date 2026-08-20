@@ -1,0 +1,514 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://aen.dev/schemas/aexp/0.1/search-request.schema.json",
+  "type": "object",
+  "properties": {
+    "query": {
+      "type": "string"
+    },
+    "task": {
+      "type": "object",
+      "properties": {
+        "taxonomy": {
+          "minItems": 1,
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "intent": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "constraints": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "acceptance": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "id",
+              "description",
+              "required"
+            ],
+            "properties": {
+              "id": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "description": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "evaluatorRef": {
+                "type": "string"
+              },
+              "required": {
+                "type": "boolean"
+              }
+            }
+          }
+        },
+        "inputTraits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "outputTraits": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "riskClass": {
+          "anyOf": [
+            {
+              "const": "read_only",
+              "type": "string"
+            },
+            {
+              "const": "reversible_write",
+              "type": "string"
+            },
+            {
+              "const": "external_write",
+              "type": "string"
+            },
+            {
+              "const": "destructive",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "properties": {
+        "model": {
+          "type": "object",
+          "required": [
+            "provider",
+            "modelId",
+            "observedAt",
+            "mutability"
+          ],
+          "properties": {
+            "provider": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "modelId": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "declaredVersion": {
+              "type": "string"
+            },
+            "providerRevision": {
+              "type": "string"
+            },
+            "immutableWeightsDigest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "description": "SHA-256 digest over RFC 8785 canonical JSON"
+            },
+            "capabilityDigest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "description": "SHA-256 digest over RFC 8785 canonical JSON"
+            },
+            "contextWindow": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "requestConfig": {
+              "type": "object",
+              "required": [
+                "configDigest"
+              ],
+              "properties": {
+                "reasoningEffort": {
+                  "type": "string"
+                },
+                "temperature": {
+                  "type": "number"
+                },
+                "maxOutputTokens": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "seed": {
+                  "type": "integer"
+                },
+                "configDigest": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                }
+              }
+            },
+            "pricingSnapshotRef": {
+              "type": "object",
+              "required": [
+                "objectType",
+                "refId",
+                "digest"
+              ],
+              "properties": {
+                "objectType": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "refId": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "revision": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                },
+                "origin": {
+                  "format": "uri",
+                  "type": "string"
+                }
+              }
+            },
+            "rateLimitSnapshotRef": {
+              "type": "object",
+              "required": [
+                "objectType",
+                "refId",
+                "digest"
+              ],
+              "properties": {
+                "objectType": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "refId": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "revision": {
+                  "minimum": 1,
+                  "type": "integer"
+                },
+                "digest": {
+                  "type": "string",
+                  "pattern": "^sha256:[0-9a-f]{64}$",
+                  "description": "SHA-256 digest over RFC 8785 canonical JSON"
+                },
+                "origin": {
+                  "format": "uri",
+                  "type": "string"
+                }
+              }
+            },
+            "observedAt": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "mutability": {
+              "anyOf": [
+                {
+                  "const": "immutable",
+                  "type": "string"
+                },
+                {
+                  "const": "versioned",
+                  "type": "string"
+                },
+                {
+                  "const": "provider_mutable",
+                  "type": "string"
+                },
+                {
+                  "const": "unknown",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        },
+        "harnessConfigurationDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "harnessManifestDigest": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$",
+          "description": "SHA-256 digest over RFC 8785 canonical JSON"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "path",
+              "operator"
+            ],
+            "properties": {
+              "path": {
+                "minLength": 1,
+                "type": "string"
+              },
+              "operator": {
+                "anyOf": [
+                  {
+                    "const": "equals",
+                    "type": "string"
+                  },
+                  {
+                    "const": "in",
+                    "type": "string"
+                  },
+                  {
+                    "const": "semver",
+                    "type": "string"
+                  },
+                  {
+                    "const": "digestEquals",
+                    "type": "string"
+                  },
+                  {
+                    "const": "exists",
+                    "type": "string"
+                  }
+                ]
+              },
+              "value": {
+                "anyOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        },
+        "environment": {
+          "type": "object",
+          "required": [
+            "capturedAt",
+            "disclosure"
+          ],
+          "properties": {
+            "os": {
+              "type": "object",
+              "required": [
+                "family"
+              ],
+              "properties": {
+                "family": {
+                  "minLength": 1,
+                  "type": "string"
+                },
+                "version": {
+                  "type": "string"
+                },
+                "arch": {
+                  "type": "string"
+                }
+              }
+            },
+            "runtime": {
+              "type": "object",
+              "patternProperties": {
+                "^(.*)$": {
+                  "type": "string"
+                }
+              }
+            },
+            "dependencySetDigest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "description": "SHA-256 digest over RFC 8785 canonical JSON"
+            },
+            "containerImageDigest": {
+              "type": "string",
+              "pattern": "^sha256:[0-9a-f]{64}$",
+              "description": "SHA-256 digest over RFC 8785 canonical JSON"
+            },
+            "region": {
+              "type": "string"
+            },
+            "hardwareClass": {
+              "type": "string"
+            },
+            "workspaceTraits": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "externalServiceDigests": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^sha256:[0-9a-f]{64}$",
+                "description": "SHA-256 digest over RFC 8785 canonical JSON"
+              }
+            },
+            "capturedAt": {
+              "format": "date-time",
+              "type": "string"
+            },
+            "disclosure": {
+              "anyOf": [
+                {
+                  "const": "digest_only",
+                  "type": "string"
+                },
+                {
+                  "const": "metadata",
+                  "type": "string"
+                },
+                {
+                  "const": "redacted_excerpt",
+                  "type": "string"
+                },
+                {
+                  "const": "reproducible_bundle",
+                  "type": "string"
+                },
+                {
+                  "const": "full_content",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "properties": {
+        "visibility": {
+          "type": "array",
+          "items": {
+            "anyOf": [
+              {
+                "const": "private",
+                "type": "string"
+              },
+              {
+                "const": "team",
+                "type": "string"
+              },
+              {
+                "const": "public",
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "maxRiskClass": {
+          "anyOf": [
+            {
+              "const": "read_only",
+              "type": "string"
+            },
+            {
+              "const": "reversible_write",
+              "type": "string"
+            },
+            {
+              "const": "external_write",
+              "type": "string"
+            },
+            {
+              "const": "destructive",
+              "type": "string"
+            }
+          ]
+        },
+        "allowedLicenses": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "minEvidenceLevel": {
+          "anyOf": [
+            {
+              "const": "H0",
+              "type": "string"
+            },
+            {
+              "const": "H1",
+              "type": "string"
+            },
+            {
+              "const": "H2",
+              "type": "string"
+            },
+            {
+              "const": "H3",
+              "type": "string"
+            },
+            {
+              "const": "H4",
+              "type": "string"
+            }
+          ]
+        },
+        "maxMeanCostUsd": {
+          "minimum": 0,
+          "type": "number"
+        },
+        "maxP95LatencyMs": {
+          "minimum": 0,
+          "type": "number"
+        }
+      }
+    },
+    "responseBudget": {
+      "type": "object",
+      "required": [
+        "maxCards"
+      ],
+      "properties": {
+        "maxCards": {
+          "minimum": 1,
+          "maximum": 3,
+          "type": "integer"
+        },
+        "maxBytes": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "estimatedMaxTokens": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      }
+    },
+    "limit": {
+      "minimum": 1,
+      "maximum": 3,
+      "type": "integer"
+    },
+    "cursor": {
+      "type": "string"
+    }
+  }
+}

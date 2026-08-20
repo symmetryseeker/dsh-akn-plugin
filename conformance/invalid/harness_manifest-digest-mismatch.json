@@ -1,0 +1,34 @@
+{
+  "protocolVersion": "0.1",
+  "objectType": "harness_manifest",
+  "manifestId": "x",
+  "configurationDigest": "sha256:0000000000000000000000000000000000000000000000000000000000000000",
+  "capturedAt": "2026-08-19T00:00:00Z",
+  "adapter": {
+    "name": "x",
+    "version": "x"
+  },
+  "harness": {
+    "name": "x",
+    "version": "x"
+  },
+  "sessionScope": {},
+  "modelSurface": {},
+  "artifacts": [],
+  "policies": {},
+  "environment": {
+    "capturedAt": "2026-08-19T00:00:00Z",
+    "disclosure": "digest_only"
+  },
+  "coverage": {
+    "mode": "trace_only",
+    "models": "none",
+    "tools": "none",
+    "skills": "none",
+    "preset": "none",
+    "policies": "none",
+    "effectiveSurface": "none",
+    "limitations": []
+  },
+  "digest": "sha256:0000000000000000000000000000000000000000000000000000000000000000"
+}
