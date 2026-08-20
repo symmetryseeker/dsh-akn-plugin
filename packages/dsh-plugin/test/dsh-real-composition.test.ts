@@ -91,10 +91,17 @@ describe('DeepSeek Harness 0.1.0-rc.7 service composition', () => {
       },
       reason: 'initial',
     })
-    await new Promise<void>((resolve) => setTimeout(resolve, 50))
+    // Deterministically wait for the async live-Manifest capture to land in the
+    // evidence store instead of a fixed 50ms sleep. Snapshot capture reads the
+    // skill/agent registries and can exceed 50ms on slower CI runners, which
+    // made the fixed wait flaky (empty manifest list).
+    const store = new LocalEvidenceStore(storePath)
+    const deadline = Date.now() + 5_000
+    while (store.listObjects('harness_manifest').length === 0 && Date.now() < deadline) {
+      await new Promise<void>((resolve) => setTimeout(resolve, 25))
+    }
     await pluginFiber.dispose()
 
-    const store = new LocalEvidenceStore(storePath)
     const manifests = store.listObjects('harness_manifest')
     expect(manifests).toHaveLength(1)
     const manifest = manifests[0] === undefined ? undefined : store.getByDigest(manifests[0].digest)
