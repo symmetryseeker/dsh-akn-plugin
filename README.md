@@ -1,5 +1,10 @@
 # Agent Experience Network
 
+[![npm version](https://img.shields.io/npm/v/dsh-akn-plugin)](https://www.npmjs.com/package/dsh-akn-plugin)
+[![license](https://img.shields.io/github/license/symmetryseeker/dsh-akn-plugin)](https://github.com/symmetryseeker/dsh-akn-plugin/blob/main/LICENSE)
+[![awesome-dsh-plugin](https://awesome.re/badge.svg)](https://github.com/awesome-dsh-plugin/awesome-dsh-plugin)
+[![AEXP 0.1 Draft/Pilot](https://img.shields.io/badge/AEXP%200.1-Draft/Pilot-9cf)](https://github.com/symmetryseeker/dsh-akn-plugin/tree/main/spec)
+
 > This repository is the public `dsh-akn-plugin` distribution and the AEN/AEXP reference implementation. It is maintained jointly by [symmetryseeker](https://github.com/symmetryseeker) and Jiaoyang Li ([@jiaoyangli-shadow7day](https://github.com/jiaoyangli-shadow7day)). See [Maintainers](./MAINTAINERS.md) and the [migration record](./MIGRATION.md).
 
 Agent Experience Network（AEN）是一个处于 Draft/Pilot 阶段的开放协议与实现，目标是让不同开发者的 Agent 在明确的 `Model × Harness × Environment` 适用范围内，共享经过审查和验证的任务级执行经验。

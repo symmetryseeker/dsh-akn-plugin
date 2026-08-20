@@ -17,3 +17,14 @@ dsh-web-ui/
 *.sqlite-wal
 *.docx
 local-data/
+
+# Credentials and secrets must never be committed (contributor-side guard).
+.env
+.env.*
+*.env
+secrets.*
+credentials.json
+*.pem
+*.key
+*.p12
+*.pfx
