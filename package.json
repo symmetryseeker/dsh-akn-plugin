@@ -127,6 +127,7 @@
     }
   },
   "devDependencies": {
+    "@aen/evaluation": "workspace:*",
     "@aen/local-store": "workspace:*",
     "@aen/protocol": "workspace:*",
     "@types/node": "^24.0.0",

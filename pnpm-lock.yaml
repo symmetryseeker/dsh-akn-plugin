@@ -34,6 +34,9 @@ importers:
         specifier: ^0.8.3
         version: 0.8.3
     devDependencies:
+      '@aen/evaluation':
+        specifier: workspace:*
+        version: link:packages/evaluation
       '@aen/local-store':
         specifier: workspace:*
         version: link:packages/local-store
