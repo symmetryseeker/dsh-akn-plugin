@@ -155,6 +155,9 @@ function buildExperience(def, episode, trace, gap) {
     ],
     excludedConditions: ['A different engine or parameterization without re-verification.'],
     revalidateOn: [{ kind: 'environment_change' }, { kind: 'contention' }],
+    // generality 为一等公民字段（阶段5）：数学技巧是跨场景可迁移的通用经验。
+    // 诚实标注：此为技术特性声明，非 transfer 评测证据（种子为 H0 观测性）。
+    generality: 'universal',
   }
   return finalizeProtocolObject({
     protocolVersion: '0.1',

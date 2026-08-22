@@ -49,8 +49,15 @@ CREATE TABLE IF NOT EXISTS hub_experiences (
   model_providers text[] NOT NULL,
   model_ids text[] NOT NULL,
   harness_digests text[] NOT NULL,
+  generality text,
+  generality_rank integer NOT NULL DEFAULT 0,
   UNIQUE(experience_id, revision)
 );
+
+-- 兼容既有部署：为已存在的表补充 generality 列（投影可重建，尽力而为）
+ALTER TABLE hub_experiences ADD COLUMN IF NOT EXISTS generality text;
+ALTER TABLE hub_experiences ADD COLUMN IF NOT EXISTS generality_rank integer NOT NULL DEFAULT 0;
+CREATE INDEX IF NOT EXISTS hub_experiences_generality_idx ON hub_experiences(generality_rank DESC, evidence_rank DESC);
 CREATE INDEX IF NOT EXISTS hub_experiences_title_idx ON hub_experiences(title);
 
 CREATE TABLE IF NOT EXISTS hub_revocations (
@@ -126,6 +133,11 @@ const RISK_RANK: Record<string, number> = {
   external_write: 2,
   destructive: 3,
 }
+const GENERALITY_RANK: Record<string, number> = {
+  scene_specific: 1,
+  domain: 2,
+  universal: 3,
+}
 
 function identity(object: JsonRecord): { refId: string; revision?: number } {
   const ids: Record<string, string> = {
@@ -186,12 +198,13 @@ async function insertObjects(client: PoolClient, contribution: IngestedContribut
     `, [object.digest, object.objectType, ref.refId, ref.revision ?? null, canonicalJson(object), contribution.root])
     if (object.objectType === 'experience_revision') {
       const experience = object as unknown as ExperienceRevision
+      const generality = experience.applicability.generality
       await client.query(`
         INSERT INTO hub_experiences(
           digest, experience_id, revision, title, summary, task_families, search_text, evidence_level,
           evidence_rank, risk_class, risk_rank, license, expires_at,
-          publisher, model_providers, model_ids, harness_digests
-        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14::jsonb,$15,$16,$17)
+          publisher, model_providers, model_ids, harness_digests, generality, generality_rank
+        ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14::jsonb,$15,$16,$17,$18,$19)
         ON CONFLICT (digest) DO NOTHING
       `, [
         experience.digest,
@@ -211,6 +224,8 @@ async function insertObjects(client: PoolClient, contribution: IngestedContribut
         selectors(experience, 'modelSelectors', 'model.provider'),
         selectors(experience, 'modelSelectors', 'model.modelId'),
         harnessDigests(experience),
+        generality ?? null,
+        generality === undefined ? 0 : GENERALITY_RANK[generality as keyof typeof GENERALITY_RANK] ?? 0,
       ])
     } else if (object.objectType === 'revocation') {
       await insertRevocation(client, object as unknown as Revocation)
@@ -471,6 +486,12 @@ export class PostgresHubProjection {
       values.push(RISK_RANK[query.maxRiskClass])
       conditions.push(`e.risk_rank <= $${values.length}`)
     }
+    if (query.minGenerality !== undefined) {
+      const rank = GENERALITY_RANK[query.minGenerality]
+      if (rank === undefined) throw new Error(`minGenerality must be universal|domain|scene_specific, got ${query.minGenerality}`)
+      values.push(rank)
+      conditions.push(`e.generality_rank >= $${values.length}`)
+    }
     if (query.maxMeanCostUsd !== undefined) {
       if (!Number.isFinite(query.maxMeanCostUsd) || query.maxMeanCostUsd < 0) throw new Error('maxMeanCostUsd must be non-negative')
       values.push(query.maxMeanCostUsd)
@@ -494,7 +515,7 @@ export class PostgresHubProjection {
       JOIN hub_experiences e ON e.digest = l.digest
       JOIN hub_objects o ON o.digest = e.digest
       ${conditions.length === 0 ? '' : `WHERE ${conditions.join(' AND ')}`}
-      ORDER BY text_rank DESC, e.evidence_rank DESC, e.revision DESC, e.experience_id
+      ORDER BY text_rank DESC, e.generality_rank DESC, e.evidence_rank DESC, e.revision DESC, e.experience_id
       LIMIT $${values.length}
     `, values)
     const rows = this.#textSearch === 'portable_test'

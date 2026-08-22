@@ -513,6 +513,22 @@
                   }
                 }
               },
+              "generality": {
+                "anyOf": [
+                  {
+                    "const": "universal",
+                    "type": "string"
+                  },
+                  {
+                    "const": "domain",
+                    "type": "string"
+                  },
+                  {
+                    "const": "scene_specific",
+                    "type": "string"
+                  }
+                ]
+              },
               "expiresAt": {
                 "format": "date-time",
                 "type": "string"
@@ -1264,6 +1280,22 @@
                   }
                 }
               },
+              "generality": {
+                "anyOf": [
+                  {
+                    "const": "universal",
+                    "type": "string"
+                  },
+                  {
+                    "const": "domain",
+                    "type": "string"
+                  },
+                  {
+                    "const": "scene_specific",
+                    "type": "string"
+                  }
+                ]
+              },
               "expiresAt": {
                 "format": "date-time",
                 "type": "string"
@@ -1894,6 +1926,22 @@
               }
             }
           }
+        },
+        "generality": {
+          "anyOf": [
+            {
+              "const": "universal",
+              "type": "string"
+            },
+            {
+              "const": "domain",
+              "type": "string"
+            },
+            {
+              "const": "scene_specific",
+              "type": "string"
+            }
+          ]
         },
         "expiresAt": {
           "format": "date-time",

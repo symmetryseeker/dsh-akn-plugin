@@ -341,6 +341,11 @@ export const GovernanceSchema = Type.Object({
   acl: Type.Optional(Type.Array(Type.String())),
 })
 
+export const GeneralitySchema = Type.Union(
+  ['universal', 'domain', 'scene_specific'].map((value) => Type.Literal(value)),
+)
+export type Generality = Static<typeof GeneralitySchema>
+
 export const ApplicabilitySchema = Type.Object({
   taskFamilies: Type.Array(Type.String(), { minItems: 1 }),
   modelSelectors: Type.Optional(Type.Array(ScalarSelectorSchema)),
@@ -369,8 +374,15 @@ export const ApplicabilitySchema = Type.Object({
       }),
     ),
   ),
+  /**
+   * 经验的可迁移度轴（通用/领域/场景专属），将"共进化指导自进化"固化为协议事实。
+   * 派生不声明：`universal` 应由跨任务族 transfer 评测（H3）证据支持，而非作者自报。
+   * 注：Optional 字段不影响既有对象 digest（valid fixture 只填 required）。
+   */
+  generality: Type.Optional(GeneralitySchema),
   expiresAt: Type.Optional(TimestampSchema),
 })
+export type Applicability = Static<typeof ApplicabilitySchema>
 
 export const CheckSchema = Type.Object({
   checkId: Type.String({ minLength: 1 }),

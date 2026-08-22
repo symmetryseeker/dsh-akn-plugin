@@ -9,6 +9,7 @@ function experience(
     cost?: number
     latency?: number
     negative?: boolean
+    applicability?: { taskFamilies: string[]; generality?: 'universal' | 'domain' | 'scene_specific' }
   },
 ): ExperienceRevision {
   return {
@@ -17,6 +18,7 @@ function experience(
     createdAt: '2026-08-01T00:00:00Z',
     kind: options.negative ? 'negative_result' : 'strategy',
     claims: [{ evidenceLevel: options.evidence, contradictingEvidenceRefs: [] }],
+    ...(options.applicability === undefined ? {} : { applicability: options.applicability }),
     ...(options.quality === undefined && options.cost === undefined && options.latency === undefined ? {} : {
       metricSummary: {
         sampleSize: 10,
@@ -46,5 +48,25 @@ describe('MVP deterministic sparse reranking', () => {
     ])
     expect(second).toEqual(first)
     expect(first.every((candidate) => candidate.scoreExplanation.length >= 5)).toBe(true)
+  })
+
+  it('ranks universal experiences above scene-specific ones when all else is equal', () => {
+    const base = { evidence: 'H1' as const }
+    const candidates = [
+      { experience: experience('universal', { ...base, applicability: { taskFamilies: ['math'], generality: 'universal' as const } }), compatibility: 'exact' as const, recallRank: 0 },
+      { experience: experience('domain', { ...base, applicability: { taskFamilies: ['math'], generality: 'domain' as const } }), compatibility: 'exact' as const, recallRank: 1 },
+      { experience: experience('scene', { ...base, applicability: { taskFamilies: ['math'], generality: 'scene_specific' as const } }), compatibility: 'exact' as const, recallRank: 2 },
+      { experience: experience('unmeasured', { ...base, applicability: { taskFamilies: ['math'] } }), compatibility: 'exact' as const, recallRank: 3 },
+    ]
+    // limit 被实现 cap 到 3；universal/domain/scene 应占据前三，unmeasured 被淘汰
+    const selected = selectMvpExperienceCandidates(candidates, 4, new Date('2026-08-20T00:00:00Z'))
+    const ids = selected.map(({ experience: value }) => value.experienceId)
+    expect(ids).toEqual([
+      'urn:aen:experience:ranking:universal',
+      'urn:aen:experience:ranking:domain',
+      'urn:aen:experience:ranking:scene',
+    ])
+    expect(ids).not.toContain('urn:aen:experience:ranking:unmeasured')
+    expect(selected[0]?.scoreExplanation.some((line) => line.includes('Generality: universal'))).toBe(true)
   })
 })

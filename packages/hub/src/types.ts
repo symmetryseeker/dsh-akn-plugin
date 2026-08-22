@@ -18,6 +18,8 @@ export interface IngestedContribution {
   verifiedKeyIds: string[]
 }
 
+export type HubGenerality = 'universal' | 'domain' | 'scene_specific'
+
 export interface HubSearchQuery {
   query?: string
   taskFamilies?: string[]
@@ -31,6 +33,8 @@ export interface HubSearchQuery {
   maxRiskClass?: 'read_only' | 'reversible_write' | 'external_write' | 'destructive'
   maxMeanCostUsd?: number
   maxP95LatencyMs?: number
+  /** 通用性轴过滤（universal 优先）：仅返回 generality ≥ 该值 的经验。 */
+  minGenerality?: HubGenerality
   limit?: number
 }
 

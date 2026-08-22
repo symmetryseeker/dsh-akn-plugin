@@ -2,6 +2,8 @@ import type { ExperienceCard, ExperienceRevision } from './schemas.js'
 
 const EVIDENCE = { H0: 0, H1: 1, H2: 2, H3: 3, H4: 4 } as const
 const COMPATIBILITY = { incompatible: 0, unknown: 1, compatible: 2, exact: 3 } as const
+/** 通用性轴（共进化指导自进化）：universal 经验优先注入。 */
+const GENERALITY = { scene_specific: 1, domain: 2, universal: 3 } as const
 
 export type MvpSelectionRole = 'primary' | 'near_negative' | 'pareto_alternative' | 'ranked_fallback'
 
@@ -41,6 +43,12 @@ function negativeSignal(experience: ExperienceRevision): boolean {
     (experience.cases?.length ?? 0) > 0 ||
     (experience.metricSummary?.negativeTransferRate ?? 0) > 0 ||
     experience.claims.some((claim) => claim.contradictingEvidenceRefs.length > 0)
+}
+
+/** 经验的可迁移度轴（universal > domain > scene_specific > unmeasured）。 */
+function generalityRank(experience: ExperienceRevision): number {
+  const value = experience.applicability?.generality
+  return value === undefined ? 0 : GENERALITY[value as keyof typeof GENERALITY] ?? 0
 }
 
 function normalizedLower(value: number | undefined, values: number[]): number {
@@ -98,9 +106,13 @@ export function selectMvpExperienceCandidates(
     const costBonus = normalizedLower(cost(candidate.experience), costs) * 4
     const latencyBonus = normalizedLower(latency(candidate.experience), latencies) * 4
     const negativeTransferPenalty = (candidate.experience.metricSummary?.negativeTransferRate ?? 0) * 12
+    const generality = generalityRank(candidate.experience)
+    // 通用经验优先（共进化指导自进化）：权重小于 compatibility 的 100，但高于 freshness
+    const generalityBonus = generality * 10
     const score = COMPATIBILITY[candidate.compatibility as keyof typeof COMPATIBILITY] * 100 + EVIDENCE[evidence] * 20 +
-      Math.max(0, 30 - candidate.recallRank) + freshness + qualityBonus + costBonus + latencyBonus +
+      Math.max(0, 30 - candidate.recallRank) + freshness + generalityBonus + qualityBonus + costBonus + latencyBonus +
       (negativeSignal(candidate.experience) ? 4 : 0) - negativeTransferPenalty
+    const generalityLabel = candidate.experience.applicability?.generality
     return {
       ...candidate,
       score,
@@ -110,6 +122,7 @@ export function selectMvpExperienceCandidates(
         `Maximum claim evidence: ${evidence}.`,
         `Sparse lexical recall position: ${candidate.recallRank + 1}.`,
         `Freshness contribution: ${freshness.toFixed(2)}.`,
+        `Generality: ${generalityLabel ?? 'unmeasured'} (${generalityBonus.toFixed(0)} points).`,
         ...(negativeSignal(candidate.experience) ? ['Negative/boundary evidence was retained in ranking.'] : []),
         ...(quality(candidate.experience) === undefined ? [] : [`Quality signal: ${quality(candidate.experience)}.`]),
         ...(cost(candidate.experience) === undefined ? [] : [`Mean cost signal: ${cost(candidate.experience)} USD.`]),
